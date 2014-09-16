@@ -22,24 +22,23 @@ namespace Backend
 
         private void HandleData()
         {
-            int requestCount = 0;
-            byte[] bytesFrom = new byte[10025];
+            int datasize = 100;
+            byte[] bytesFrom = new byte[datasize];
             string dataFromClient = null;
             Byte[] sendBytes = null;
             string serverResponse = null;
-            string rCount = null;
-            requestCount = 0;
+
 
             while ((true))
             {
                 try
-                {/*
+                {
                     NetworkStream networkStream = clientSocket.GetStream();
-                    networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);
+                    networkStream.Read(bytesFrom, 0, datasize);//(int)clientSocket.ReceiveBufferSize);
                     dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
-                    dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
-                    Console.WriteLine(">> " + "From client-" + clNo + dataFromClient);
-                    
+                    dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf('\0'));
+                    Console.WriteLine(">> " + "data from " + PositionListener.ClientToIP(clientSocket) + ": " + dataFromClient.Replace('\n', ' '));
+                    /*
                     rCount = Convert.ToString(requestCount);
                     serverResponse = "Server to clinet(" + clNo + ") " + rCount;
                     sendBytes = Encoding.ASCII.GetBytes(serverResponse);

@@ -62,7 +62,7 @@ namespace Backend
             }
         }
 
-        private string ClientToIP(TcpClient client)
+        public static string ClientToIP(TcpClient client)
         {
             return ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString();
         }
