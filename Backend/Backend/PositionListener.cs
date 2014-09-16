@@ -43,9 +43,13 @@ namespace Backend
             }
         }
 
+        public static Dictionary<string, List<DataPoint>> positionDict;
+
         public void Start()
         {
+            positionDict = new Dictionary<string, List<DataPoint>>();
             int port = 4444;
+
             serverSocket = new TcpListener(IPAddress.Any, port);
             clientSocket = default(TcpClient);
 
@@ -55,7 +59,9 @@ namespace Backend
             while (true)
             {
                 clientSocket = serverSocket.AcceptTcpClient();
-                Console.WriteLine(">> " + "new client " + ClientToIP(clientSocket));
+                string clientIP = ClientToIP(clientSocket);
+                positionDict.Add(clientIP, new List<DataPoint>());
+                Console.WriteLine(">> " + "new client " + clientIP);
 
                 PositionListenerHandler client = new PositionListenerHandler();
                 client.startClient(clientSocket);
