@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Windows.Forms;
 
 namespace ServerGUI {
     partial class Form1 {
@@ -111,11 +112,26 @@ namespace ServerGUI {
         private System.Windows.Forms.DataGridViewTextBoxColumn SignalStrength;
         private System.Windows.Forms.DataGridViewButtonColumn Graph;
 
-        private void setVariables() {
+        private void AddToDataGrid(int id, string packageStatus, int timeSinceConnection, int signalStrength) {
 
-            this.dataGridView.Rows.Add("1234", "TotallyPackage", "0", "9001");
+            foreach (DataGridViewRow row in dataGridView.Rows) {
+                if (row.Cells[0].Value.Equals(id)) {
+                    row.Cells[1].Value = packageStatus;
+                    row.Cells[2].Value = timeSinceConnection;
+                    row.Cells[3].Value = signalStrength;
+
+                } else {
+                    this.dataGridView.Rows.Add(id, packageStatus, timeSinceConnection, signalStrength);
+                }
+
+
+            }
         }
 
+        private void CallThisShit() {
+            this.dataGridView.Rows.Add(1234, "TotallyPackage", 0, 9001);
+            AddToDataGrid(1234, "k", 9, 98);
+        }
     }
 }
 
