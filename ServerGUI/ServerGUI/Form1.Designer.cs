@@ -114,23 +114,28 @@ namespace ServerGUI {
 
         private void AddToDataGrid(int id, string packageStatus, int timeSinceConnection, int signalStrength) {
 
+            bool inserted = false;
+
             foreach (DataGridViewRow row in dataGridView.Rows) {
                 if (row.Cells[0].Value.Equals(id)) {
+                    inserted = true;
                     row.Cells[1].Value = packageStatus;
                     row.Cells[2].Value = timeSinceConnection;
                     row.Cells[3].Value = signalStrength;
 
-                } else {
-                    this.dataGridView.Rows.Add(id, packageStatus, timeSinceConnection, signalStrength);
                 }
+            }
 
-
+            if (!inserted) {
+                this.dataGridView.Rows.Add(id, packageStatus, timeSinceConnection, signalStrength);
             }
         }
 
         private void CallThisShit() {
-            this.dataGridView.Rows.Add(1234, "TotallyPackage", 0, 9001);
+            AddToDataGrid(1234, "TotallyPackage", 0, 9001);
             AddToDataGrid(1234, "k", 9, 98);
+            AddToDataGrid(1235, "hej", 1, 12);
+            AddToDataGrid(1246, "nej", 5, 40);
         }
     }
 }
