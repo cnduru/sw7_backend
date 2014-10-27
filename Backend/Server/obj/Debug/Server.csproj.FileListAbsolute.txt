@@ -1,0 +1,12 @@
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\bin\Debug\Server.exe.config
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.Form1.resources
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.Form2.resources
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.csproj.GenerateResource.Cache
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\bin\Debug\Server.exe
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\bin\Debug\Server.pdb
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\bin\Debug\ServerGUI.exe
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\bin\Debug\ServerGUI.pdb
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.Properties.Resources.resources
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.exe
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.pdb
