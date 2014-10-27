@@ -5,8 +5,8 @@ D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.Fo
 D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.csproj.GenerateResource.Cache
 D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\bin\Debug\Server.exe
 D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\bin\Debug\Server.pdb
-D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\bin\Debug\ServerGUI.exe
 D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\bin\Debug\ServerGUI.pdb
 D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.Properties.Resources.resources
 D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.exe
 D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.pdb
+D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.DatalogForm.resources

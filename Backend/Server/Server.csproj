@@ -51,8 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-	<Compile Include="Connection.cs">
-	<Compile Include="Networking.cs">
+    <Compile Include="Connection.cs" />
     <Compile Include="DatalogForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +71,7 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Networking.cs" />
     <Compile Include="PositionListener.cs" />
     <Compile Include="PositionListenerHandler.cs" />
     <Compile Include="Program.cs" />
