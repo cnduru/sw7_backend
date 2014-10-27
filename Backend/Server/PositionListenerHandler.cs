@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Server
 {
@@ -12,6 +13,12 @@ namespace Server
     {
         TcpClient clientSocket;
         string clNo;
+        DatalogForm _dform;
+
+        public PositionListenerHandler(DatalogForm dform)
+        {
+            _dform = dform;
+        }
 
         public void startClient(TcpClient inClientSocket)
         {
@@ -38,6 +45,7 @@ namespace Server
                     dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
                     dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf('\0'));
                     System.Diagnostics.Debug.Write(">> " + "data from " + PositionListener.ClientToIP(clientSocket) + ": " + dataFromClient.Replace('\n', ' '));
+                    updateLog(">> " + "data from " + PositionListener.ClientToIP(clientSocket) + ": " + dataFromClient.Replace('\n', ' '));
                     /* code for sending stuff.. currently not needed
                     rCount = Convert.ToString(requestCount);
                     serverResponse = "Server to clinet(" + clNo + ") " + rCount;
@@ -51,6 +59,13 @@ namespace Server
                     System.Windows.Forms.MessageBox.Show(">> " + ex.ToString());
                 }
             }
+        }
+
+
+        public void updateLog(string data)
+        {
+            MethodInvoker action = () => _dform.richTextBoxLog.Text += '\n' + data;
+            _dform.BeginInvoke(action);
         }
     }
 }

@@ -15,7 +15,15 @@ namespace Server
         TcpClient clientSocket;
         List<TcpClient> clientList;
         List<TcpListener> serverList;
+        Form1 _f;
+        DatalogForm _df;
+        int clientCnt = 0;
 
+        public PositionListener(Form1 f, DatalogForm df)
+        {
+            _f = f;
+            _df = df;
+        }
 
         ~PositionListener()
         {
@@ -40,6 +48,18 @@ namespace Server
 
         public static Dictionary<string, List<DataPoint>> positionDict;
 
+        public void updateClients(string data)
+        {
+            MethodInvoker action = () => _f.labelData.Text = data;
+            _f.BeginInvoke(action);
+        }
+
+        public void updateLog(string data)
+        {
+            MethodInvoker action = () => _df.richTextBoxLog.Text += '\n' + data;
+            _df.BeginInvoke(action);
+        }
+
         public void Start(int port = 8000)
         {
             positionDict = new Dictionary<string, List<DataPoint>>();
@@ -48,16 +68,18 @@ namespace Server
             clientSocket = default(TcpClient);
 
             serverSocket.Start();
-            System.Diagnostics.Debug.Write(">> " + "server started @ " + DateTime.Now.ToString() + " on port " + port); 
-
+            System.Diagnostics.Debug.Write(">> " + "server started @ " + DateTime.Now.ToString() + " on port " + port);
+            updateLog(">> " + "server started @ " + DateTime.Now.ToString() + " on port " + port);
             while (true)
             {
                 clientSocket = serverSocket.AcceptTcpClient();
+                clientCnt++;
+                updateClients(clientCnt.ToString());
                 string clientIP = ClientToIP(clientSocket);
                 positionDict.Add(clientIP, new List<DataPoint>());
                 System.Diagnostics.Debug.Write(">> " + "new client " + clientIP);
 
-                PositionListenerHandler client = new PositionListenerHandler();
+                PositionListenerHandler client = new PositionListenerHandler(_df);
                 client.startClient(clientSocket);
             }
         }
