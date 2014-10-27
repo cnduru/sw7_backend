@@ -88,6 +88,7 @@ namespace Server {
             // 
             // trackBar1
             // 
+            this.trackBar1.Enabled = false;
             this.trackBar1.Location = new System.Drawing.Point(388, 115);
             this.trackBar1.Maximum = 31;
             this.trackBar1.Name = "trackBar1";
@@ -125,19 +126,22 @@ namespace Server {
             // 
             this.chart1.BackColor = System.Drawing.Color.Transparent;
             this.chart1.BorderlineColor = System.Drawing.Color.Transparent;
+            chartArea1.AxisX.LabelStyle.Enabled = false;
+            chartArea1.AxisX.MajorGrid.LineWidth = 0;
+            chartArea1.AxisX.Maximum = 20D;
             chartArea1.AxisX.Minimum = 0D;
+            chartArea1.AxisY.Interval = 5D;
+            chartArea1.AxisY.MajorGrid.LineWidth = 0;
             chartArea1.AxisY.Maximum = 31D;
             chartArea1.AxisY.Minimum = 0D;
             chartArea1.BackColor = System.Drawing.Color.Transparent;
             chartArea1.BackSecondaryColor = System.Drawing.Color.Transparent;
             chartArea1.BorderColor = System.Drawing.Color.Transparent;
             chartArea1.Name = "ChartArea1";
-            chartArea1.AxisX.MajorGrid.LineWidth = 0;
-            chartArea1.AxisY.MajorGrid.LineWidth = 0;
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(388, 218);
+            this.chart1.Location = new System.Drawing.Point(365, 218);
             this.chart1.Name = "chart1";
             series1.BackImageTransparentColor = System.Drawing.Color.Transparent;
             series1.BackSecondaryColor = System.Drawing.Color.Transparent;
@@ -150,7 +154,7 @@ namespace Server {
             series1.Legend = "Legend1";
             series1.Name = "Signal";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(483, 281);
+            this.chart1.Size = new System.Drawing.Size(506, 281);
             this.chart1.TabIndex = 8;
             this.chart1.Text = "chart1";
             // 

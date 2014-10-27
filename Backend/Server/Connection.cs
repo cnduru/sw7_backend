@@ -13,18 +13,22 @@ namespace Server {
         int PackageStatus;
         int SignalStrength;
         Queue<int> SignalHistory = new Queue<int>();
-        Stopwatch timer = new Stopwatch();
+        Stopwatch Timer = new Stopwatch();
+        Stopwatch SignalCheck = new Stopwatch();
 
         public Connection(int id, int signalStrength) {
             this.Id = id;
             this.SignalStrength = signalStrength;
             this.SignalHistory.Enqueue(signalStrength);
-            timer.Start();
+            Timer.Start();
+            SignalCheck.Start();
 
         }
 
         public void Update(int signalStrength, int packageStatus) {
-            timer.Restart();
+            if (signalStrength != 0) {
+                Timer.Restart();
+            }
             PackageStatus = packageStatus;
             this.SignalStrength = signalStrength;
 
@@ -33,6 +37,18 @@ namespace Server {
             }
 
             SignalHistory.Enqueue(signalStrength);
+        }
+
+        public void UpdateDisconnected() {
+            SignalCheck.Restart();
+
+            this.SignalStrength = 0;
+
+            if (SignalHistory.Count >= 20) {
+                SignalHistory.Dequeue();
+            }
+
+            SignalHistory.Enqueue(SignalStrength);
         }
 
         public int GetId() {
@@ -57,7 +73,7 @@ namespace Server {
         }
         public string GetTimeSinceConnection() {
 
-            TimeSpan ts = timer.Elapsed;
+            TimeSpan ts = Timer.Elapsed;
             string presentable = "";
             presentable += String.Format("{0:00}", ts.Hours);
             presentable += " hours, ";
@@ -67,6 +83,15 @@ namespace Server {
             presentable += " seconds";
 
             return presentable;
+        }
+
+        public bool GetSignalCheck() {
+
+            if (SignalCheck.Elapsed.TotalSeconds > 6) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Server {
             for (int i = 0; i < dataGridView.Rows.Count; i++) {
                 if (dataGridView.Rows[i].Cells[0].Value.Equals(connection.GetId())) {
                     ConnectionsInGrid[i].Update(connection.GetSignalStrength(), connection.GetPackageStatus());
-                    connection =  ConnectionsInGrid[i];
+                    connection = ConnectionsInGrid[i];
                     inserted = true;
 
                     //If the updated element is also the selected (viewed) element, update display for user
@@ -75,46 +75,44 @@ namespace Server {
 
         //Run live test data. BeginInvoke updates other thread
         public void RunTestData() {
-            Connection sup = new Connection(3456, 2);
 
-            System.Threading.Thread.Sleep(2000);
+            Random rnd = new Random();
+            bool packagearrived = false;
+            for (int i = 0; i < 100000; i++) {
 
-            this.BeginInvoke((MethodInvoker)delegate {
+                packagearrived = false;
+                
+                System.Threading.Thread.Sleep(5000);
 
-                //chart1.Series["Signal"].Points.AddXY(1, 2);
-                //chart1.Series["Signal"].Points.AddXY(3, 4);
-                AddToDataGrid(sup);
-            });
+                int randomStrength = rnd.Next(0, 31);
+                int randomArrived = rnd.Next(0, 100);
 
-            System.Threading.Thread.Sleep(1000);
 
-            this.BeginInvoke((MethodInvoker)delegate {
-                AddToDataGrid(new Connection(3456, 5));
-            });
 
-            System.Threading.Thread.Sleep(1000);
+                if (randomArrived > 20) {
+                    packagearrived = true;
+                } else {
+                    packagearrived = false;
+                    }
 
-            this.BeginInvoke((MethodInvoker)delegate {
-                AddToDataGrid(new Connection(3456, 6));
-            });
 
-            System.Threading.Thread.Sleep(1000);
+                if (packagearrived) {
+                    this.BeginInvoke((MethodInvoker)delegate {
+                        AddToDataGrid(new Connection(3456, randomStrength));
+                    });
 
-            this.BeginInvoke((MethodInvoker)delegate {
-                AddToDataGrid(new Connection(3456, 7));
-            });
+                } else {
+                    this.BeginInvoke((MethodInvoker)delegate {
 
-            System.Threading.Thread.Sleep(1000);
-
-            this.BeginInvoke((MethodInvoker)delegate {
-                AddToDataGrid(new Connection(3456, 8));
-            });
-
-            System.Threading.Thread.Sleep(1000);
-
-            this.BeginInvoke((MethodInvoker)delegate {
-                AddToDataGrid(new Connection(3456, 9));
-            });
+                        foreach (Connection c in ConnectionsInGrid) {
+                            if (c.GetId().Equals(3456)) {
+                                c.UpdateDisconnected();
+                                AddToDataGrid(c);
+                            }
+                        }
+                    });
+                }
+            }
         }
     }
 }
