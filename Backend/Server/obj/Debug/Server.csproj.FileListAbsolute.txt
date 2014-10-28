@@ -10,3 +10,6 @@ D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.Pr
 D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.exe
 D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.pdb
 D:\Medier\Skrivebord\Semester7\Projekt\Server\Backend\Server\obj\Debug\Server.DatalogForm.resources
+C:\Users\Avalon\sw7_backend\Backend\Server\bin\Debug\Server.exe.config
+C:\Users\Avalon\sw7_backend\Backend\Server\obj\Debug\Server.exe
+C:\Users\Avalon\sw7_backend\Backend\Server\obj\Debug\Server.pdb
