@@ -64,55 +64,5 @@ namespace Server {
             }
             chart1.Refresh();
         }
-
-        //Put testdata into datagrid
-        public void InitializeTestData(List<Connection> connections) {
-
-            foreach (Connection c in connections) {
-                AddToDataGrid(c);
-            }
-        }
-
-        //Run live test data. BeginInvoke updates other thread
-        public void RunTestData() {
-
-            Random rnd = new Random();
-            bool packagearrived = false;
-            for (int i = 0; i < 100000; i++) {
-
-                packagearrived = false;
-                
-                System.Threading.Thread.Sleep(5000);
-
-                int randomStrength = rnd.Next(0, 31);
-                int randomArrived = rnd.Next(0, 100);
-
-
-
-                if (randomArrived > 20) {
-                    packagearrived = true;
-                } else {
-                    packagearrived = false;
-                    }
-
-
-                if (packagearrived) {
-                    this.BeginInvoke((MethodInvoker)delegate {
-                        AddToDataGrid(new Connection(3456, randomStrength));
-                    });
-
-                } else {
-                    this.BeginInvoke((MethodInvoker)delegate {
-
-                        foreach (Connection c in ConnectionsInGrid) {
-                            if (c.GetId().Equals(3456)) {
-                                c.UpdateDisconnected();
-                                AddToDataGrid(c);
-                            }
-                        }
-                    });
-                }
-            }
-        }
     }
 }
