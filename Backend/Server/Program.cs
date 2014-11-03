@@ -12,6 +12,7 @@ namespace Server
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -19,18 +20,12 @@ namespace Server
             //Server setup form
             var form1 = new Form1();
             form1.Show();
-
-            //GUI form with test data
-            var form2 = new Form2();
-            form2.Show();
-            form2.InitializeTestData(MakeTestData());
+            //form2.InitializeTestData(MakeTestData());
 
             //Run live test data
-            Thread thread = new Thread(form2.RunTestData);
-            thread.Start();
+            //Thread thread = new Thread(form2.RunTestData);
+            //thread.Start();
             Application.Run();
-
-
         }
 
         //Creates test data

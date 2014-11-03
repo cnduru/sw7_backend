@@ -14,10 +14,12 @@ namespace Server
         TcpClient clientSocket;
         string clNo;
         DatalogForm _dform;
+        Form2 _f2;
 
-        public PositionListenerHandler(DatalogForm dform)
+        public PositionListenerHandler(DatalogForm dform, Form2 f2)
         {
             _dform = dform;
+            _f2 = f2;
         }
 
         public void startClient(TcpClient inClientSocket)
@@ -27,6 +29,7 @@ namespace Server
             ctThread.Start();
         }
 
+
         private void HandleData()
         {
             int datasize = 100;
@@ -34,7 +37,6 @@ namespace Server
             string dataFromClient = null;
             Byte[] sendBytes = null;
             string serverResponse = null;
-
 
             while ((true))
             {
@@ -46,6 +48,14 @@ namespace Server
                     dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf('\0'));
                     System.Diagnostics.Debug.Write(">> " + "data from " + PositionListener.ClientToIP(clientSocket) + ": " + dataFromClient.Replace('\n', ' '));
                     updateLog(">> " + "data from " + PositionListener.ClientToIP(clientSocket) + ": " + dataFromClient.Replace('\n', ' '));
+
+                    //Store received data in list. Data from start of list is: Lat, Lng, IMEI, Signal
+                    List<string> clientData = new List<string>();
+                    clientData = dataFromClient.Split(';').ToList();
+
+                    Connection connection = new Connection(Convert.ToInt64(clientData[2]), Convert.ToInt32(clientData[3]));
+                    _f2.AddToDataGrid(connection);
+
                     /* code for sending stuff.. currently not needed
                     rCount = Convert.ToString(requestCount);
                     serverResponse = "Server to clinet(" + clNo + ") " + rCount;

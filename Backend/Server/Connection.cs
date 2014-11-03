@@ -9,14 +9,14 @@ using System.Drawing;
 namespace Server {
     public class Connection {
 
-        int Id;
+        Int64 Id;
         int PackageStatus;
         int SignalStrength;
         Queue<int> SignalHistory = new Queue<int>();
         Stopwatch Timer = new Stopwatch();
         Stopwatch SignalCheck = new Stopwatch();
 
-        public Connection(int id, int signalStrength) {
+        public Connection(Int64 id, int signalStrength) {
             this.Id = id;
             this.SignalStrength = signalStrength;
             this.SignalHistory.Enqueue(signalStrength);
@@ -51,7 +51,7 @@ namespace Server {
             SignalHistory.Enqueue(SignalStrength);
         }
 
-        public int GetId() {
+        public Int64 GetId() {
             return Id;
         }
 
