@@ -52,6 +52,7 @@ namespace Server
                     //Store received data in list. Data from start of list is: Lat, Lng, IMEI, Signal
                     List<string> clientData = new List<string>();
                     clientData = dataFromClient.Split(';').ToList();
+
                     Connection connection = new Connection(Convert.ToInt64(clientData[0]), Convert.ToInt32(clientData[1]));
                     _f2.AddToDataGrid(connection);
 
