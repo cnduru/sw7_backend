@@ -1,13 +1,13 @@
 ﻿DROP TABLE IF EXISTS game CASCADE;
-DROP TABLE IF EXISTS player CASCADE;
+DROP TABLE IF EXISTS account CASCADE;
 DROP TABLE IF EXISTS item CASCADE;
-DROP TABLE IF EXISTS item_instance CASCADE;
-DROP TABLE IF EXISTS has_item CASCADE;
+DROP TABLE IF EXISTS location CASCADE;
+DROP TABLE IF EXISTS inventory CASCADE;
 DROP TABLE IF EXISTS team CASCADE;
-DROP TABLE IF EXISTS player_game_info CASCADE;
+DROP TABLE IF EXISTS player CASCADE;
 
 
-CREATE TABLE player
+CREATE TABLE account
 (
   id serial PRIMARY KEY, 
   username text NOT NULL
@@ -15,14 +15,14 @@ CREATE TABLE player
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE player
+ALTER TABLE account
   OWNER TO postgres;
 
 
 CREATE TABLE game
 (
   id serial PRIMARY KEY, 
-  host_id int NOT NULL REFERENCES player(id),
+  host_id int NOT NULL REFERENCES account(id),
   alias text NOT NULL,
   create_time date NOT NULL,
   start_time date NOT NULL,
@@ -35,18 +35,6 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE game
-  OWNER TO postgres;
-
-
-CREATE TABLE team
-(
-  id serial PRIMARY KEY, 
-  points int NOT NULL
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE team
   OWNER TO postgres;
 
 
@@ -63,45 +51,58 @@ ALTER TABLE item
   OWNER TO postgres;
 
 
-CREATE TABLE item_instance
+CREATE TABLE team
 (
   id serial PRIMARY KEY, 
-  game_id int NOT NULL REFERENCES game(id),
-  item_id int NOT NULL REFERENCES item(id),
-  loc_x float NOT NULL,
-  loc_y float NOT NULL,
-  team_id int NOT NULL REFERENCES team(id)
+  score int NOT NULL
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE item_instance
+ALTER TABLE team
   OWNER TO postgres;
 
 
-CREATE TABLE player_game_info
+CREATE TABLE player
+(
+  id serial PRIMARY KEY, 
+  owner int NOT NULL REFERENCES account(id),
+  game_id int NOT NULL REFERENCES game(id),
+  team_id int REFERENCES team(id),
+  score int
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE player
+  OWNER TO postgres;
+
+
+CREATE TABLE inventory
 (
   id serial PRIMARY KEY, 
   player_id int NOT NULL REFERENCES player(id),
-  team_id int NOT NULL REFERENCES team(id),
-  game_id int NOT NULL REFERENCES game(id)
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE player_game_info
-  OWNER TO postgres;
-  
-
-CREATE TABLE has_item
-(
-  id serial PRIMARY KEY, 
-  player_game_info_id int NOT NULL REFERENCES player_game_info(id),
   item_id int NOT NULL REFERENCES item(id),
   count int NOT NULL
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE has_item
+ALTER TABLE inventory
+  OWNER TO postgres;
+
+
+CREATE TABLE location
+(
+  id serial PRIMARY KEY, 
+  game_id int NOT NULL REFERENCES game(id),
+  item_id int NOT NULL REFERENCES item(id),
+  loc_x float NOT NULL,
+  loc_y float NOT NULL,
+  team_id int REFERENCES team(id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE location
   OWNER TO postgres;
