@@ -14,13 +14,20 @@ namespace Server
         [STAThread]
 
         static void Main() {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
 
             //Server setup form
-            var form1 = new Form1();
-            form1.Show();
-            Application.Run();
+            //var form1 = new Form1();
+            //form1.Show();
+			AsynchronousSocketListener.StartListening ();
+			/*Thread t = new Thread(new ThreadStart(AsynchronousSocketListener.StartListening));
+			t.IsBackground = true;
+			t.Start();
+			Console.WriteLine ("listening started...");*/
+
+
+			//Application.Run();
         }
     }
 }
