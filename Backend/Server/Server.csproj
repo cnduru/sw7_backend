@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsynchronousSocketListener.cs" />
     <Compile Include="BoundingBox.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Coordinate.cs" />
@@ -111,7 +112,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Async.cs" />
+    <Compile Include="StateObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
