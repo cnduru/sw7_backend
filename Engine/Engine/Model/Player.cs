@@ -18,31 +18,34 @@ namespace Engine
             _inventory = new List<Item>();
 		}
 
-        public int GetID()
-        {          
-            return Gid;
-        }          
-                   
-        public int GetOwner()
-        {          
-            return _owner;
-        }          
-                   
-        public int GetGameID()
-        {          
-            return _gameID;
-        }          
-                   
-        public int GetTeamID()
+        //Accessors
+        public int id
         {
-            return _teamID;
+            get { return _id; }
         }
 
-        public List<Item> AddToInventory(Item)
+        public int userName
         {
-            _inventory.Add(Item);
+            get { return _owner; }
         }
 
+        public List<Item> inventory
+        {
+            get { return _inventory; }
+            set { _inventory = value; }
+        }
+
+        public int gameID
+        {
+            get { return _gameID; }
+            set { _gameID = value; }
+        }
+
+        public int teamID
+        {
+            get { return teamID; }
+            set { teamID = value; }
+        }
 	}
 }
 
