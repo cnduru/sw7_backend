@@ -10,9 +10,9 @@ namespace Engine {
         static void Main(string[] args) {
             GameThreadPool gameThreadPool = new GameThreadPool();
 
-            Game gameA = new Game(50);
-            Game gameB = new Game(51);
-            Game gameC = new Game(52);
+            GameThread gameA = new GameThread(50);
+            GameThread gameB = new GameThread(51);
+            GameThread gameC = new GameThread(52);
 
             gameThreadPool.StartThread(0, gameA);
             gameThreadPool.StartThread(1, gameB);

@@ -6,10 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Engine {
-    class Game {
+    class GameThread {
         int GameId;
 
-        public Game(int lobbyId) {
+        public GameThread(int lobbyId) {
             GameId = lobbyId;
             //Get if lobbyId in DB has time limit - If yes
         }

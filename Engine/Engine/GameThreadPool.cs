@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Engine {
     class GameThreadPool {
-        private Dictionary<Thread, Game> GameThreads;
+        private Dictionary<Thread, GameThread> GameThreads;
 
         public GameThreadPool() {
-            GameThreads = new Dictionary<Thread, Game>();
+            GameThreads = new Dictionary<Thread, GameThread>();
         }
 
-        public void StartThread(int threadId, Game game) {
+        public void StartThread(int threadId, GameThread game) {
             ThreadStart threadDelegate = new ThreadStart(game.Start);
             Thread gameThread = new Thread(threadDelegate);
 
@@ -25,15 +25,15 @@ namespace Engine {
         }
         public void KillThread(int threadId) {
             string name = "GameThread" + threadId;
-            foreach (KeyValuePair<Thread, Game> threadGamePair in GameThreads) {
+            foreach (KeyValuePair<Thread, GameThread> threadGamePair in GameThreads) {
                 if (threadGamePair.Key.Name == name)
                     threadGamePair.Key.Abort();
             }
         }
 
-        public Game GetGameInstance(int threadId) {
+        public GameThread GetGameInstance(int threadId) {
             string name = "GameThread" + threadId;
-            foreach (KeyValuePair<Thread, Game> threadGamePair in GameThreads) {
+            foreach (KeyValuePair<Thread, GameThread> threadGamePair in GameThreads) {
                 if (threadGamePair.Key.Name == name)
                     return threadGamePair.Value;
             }
