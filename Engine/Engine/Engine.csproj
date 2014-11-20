@@ -11,6 +11,8 @@
     <AssemblyName>Engine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,6 +49,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateObject.cs" />
     <Compile Include="GameThreadPool.cs" />
+    <Compile Include="Model\Account.cs" />
+    <Compile Include="Model\Game.cs" />
+    <Compile Include="Model\Item.cs" />
+    <Compile Include="Model\Team.cs" />
+    <Compile Include="Model\Player.cs" />
+    <Compile Include="Model\Inventory.cs" />
+    <Compile Include="Model\Location.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -59,4 +68,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
 </Project>
