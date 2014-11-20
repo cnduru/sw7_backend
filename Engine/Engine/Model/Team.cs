@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 
 namespace Engine
 {
@@ -17,7 +18,6 @@ namespace Engine
         public int id
         {
             get { return _id; }
-            set { _id = value; }
         }
 
         public int score
@@ -25,6 +25,11 @@ namespace Engine
             get { return _score; }
             set { _score = value; }
         }
+
+		public List<Player> teamMembers
+		{
+			get { return _teamMembers; }
+		}
 	}
 }
 

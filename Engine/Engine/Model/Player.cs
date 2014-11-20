@@ -38,13 +38,11 @@ namespace Engine
         public int gameID
         {
             get { return _gameID; }
-            set { _gameID = value; }
         }
 
         public int teamID
         {
-            get { return teamID; }
-            set { teamID = value; }
+            get { return _teamID; }
         }
 	}
 }
