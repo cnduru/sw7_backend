@@ -7,9 +7,11 @@ namespace Engine
 	{
 		public int id {
 			get { return id; }
+			set { id = value; }
 		}
 		public string userName { 
 			get { return userName; }
+			set { userName = value; }
 		}
 		public List<Player> players	{
 			get { return players; }
@@ -20,10 +22,10 @@ namespace Engine
 			set { hosting = value; }
 		}
 
-		public Account (int id, string userName)
+		public Account (int _id, string _userName)
 		{
-			id = id;
-			userName = userName;
+			id = _id;
+			userName = _userName;
 		}
 	}
 }
