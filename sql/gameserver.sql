@@ -16,7 +16,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE account
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE game
@@ -35,7 +35,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE game
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE item
@@ -48,7 +48,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE item
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE team
@@ -60,7 +60,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE team
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE player
@@ -75,7 +75,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE player
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE inventory
@@ -89,7 +89,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE inventory
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE location
@@ -105,4 +105,4 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE location
-  OWNER TO postgres;
+  OWNER TO cornfield;
