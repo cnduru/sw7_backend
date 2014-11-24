@@ -13,11 +13,11 @@ namespace Server
         ///<Summary>
         /// Method for deserializing from XML to a login object.
         ///</Summary>
-        public static Login DeserializeLogin(string path = "login.xml")
+        public static Login DeserializeLogin(string xml) //string path = "login.xml")
         {
             Login login = new Login();
 
-            TextReader reader = new StreamReader(@path);
+            TextReader reader = new StringReader(xml);
             XmlSerializer serializer = new XmlSerializer(typeof(Login));
             login = (Login) serializer.Deserialize(reader);
             reader.Close();
