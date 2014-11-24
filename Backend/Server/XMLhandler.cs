@@ -13,7 +13,7 @@ namespace Server
         ///<Summary>
         /// Method for deserializing from XML to a login object.
         ///</Summary>
-        public static Login GetLogin(string path = "login.xml")
+        public static Login DeserializeLogin(string path = "login.xml")
         {
             Login login = new Login();
 
