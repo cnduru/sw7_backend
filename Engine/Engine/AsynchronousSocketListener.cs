@@ -7,8 +7,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+//Bruges til at kalde metoder givet ved en string. 
+using System.Reflection;
+
 namespace Engine {
     class AsynchronousSocketListener {
+        // All active gameThreads must be in the gameThreadPool. Otherwise they cannot be targetted.
+        private static GameThreadPool gameThreadPool = new GameThreadPool();
+
+
         // Thread signal.
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
@@ -16,6 +23,9 @@ namespace Engine {
         }
 
         public static void StartListening() {
+            //Initialise GameThreadPool to handle active games
+            initGameThreadPool();
+
             // Data buffer for incoming data.
             byte[] bytes = new Byte[1024];
 
@@ -49,8 +59,7 @@ namespace Engine {
                     allDone.WaitOne();
                 }
 
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Console.WriteLine(e.ToString());
             }
 
@@ -95,6 +104,20 @@ namespace Engine {
                     // All the data has been read from the client. Display it on the console.
                     Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
                         content.Length, content);
+
+                    //Locate variables in information sent from client
+                    int gameId = 1;
+                    string methodCall = "AskDog";
+                    object[] methodParams = {gameId, "test"};
+                    
+                    //ATTEMPTING TO CALL FUNCTION
+                    Type type = typeof(GameThread);
+                    MethodInfo method = type.GetMethod(methodCall);
+                    GameThread c = gameThreadPool.GetGameInstance(gameId);
+                    string result = (string)method.Invoke(c, methodParams);
+
+                    Console.WriteLine(result);
+
                     // Echo the data back to the client.
                     Send(handler, content);
                 } else {
@@ -126,10 +149,22 @@ namespace Engine {
                 handler.Shutdown(SocketShutdown.Both);
                 handler.Close();
 
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Console.WriteLine(e.ToString());
             }
         }
+
+        private static void initGameThreadPool() {
+            
+
+            GameThread gameA = new GameThread(50);
+            GameThread gameB = new GameThread(51);
+            GameThread gameC = new GameThread(52);
+
+            gameThreadPool.StartThread(0, gameA);
+            gameThreadPool.StartThread(1, gameB);
+            gameThreadPool.StartThread(2, gameC);
+        }
+
     }
 }
