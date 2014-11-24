@@ -27,7 +27,7 @@ CREATE TABLE game
   create_time date NOT NULL,
   start_time date NOT NULL,
   end_time date NOT NULL,
-  invisibility int NOT NULL,
+  visibility int NOT NULL,
   boundary_x float NOT NULL,
   boundary_y float NOT NULL
 )

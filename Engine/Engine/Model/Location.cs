@@ -7,7 +7,7 @@ namespace Engine
         private int _id, _gameID, _itemID;
         private double _locX, _locY;
 
-		public Location (int id, gameID, int itemID, int locX, int locY)
+		public Location (int id, int gameID, int itemID, int locX, int locY)
 		{
             _id = id;
             _gameID = gameID;
