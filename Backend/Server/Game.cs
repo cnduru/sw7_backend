@@ -9,12 +9,14 @@ namespace Server {
     class Game {
         int GameId;
 
-        public Game(int lobbyId) {
+        public Game(int lobbyId) 
+        {
             GameId = lobbyId;
             //Get if lobbyId in DB has time limit - If yes
         }
 
-        public void Start() {
+        public void Start() 
+        {
             //Setup crates and shit
         }
     }
