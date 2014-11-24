@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 
 namespace Engine
@@ -14,6 +15,19 @@ namespace Engine
 		private List<Team> _teams;
 		private List<Player> _players;
 		private List<Location> _locations;
+
+		public Game (DataRow row)
+		{
+			_id = row.Field<int> ("id");
+			/*_hostID = hostID;
+			_visibility = visibility;
+			_alias = alias;
+			_created = created;
+			_start = start;
+			_end = end;
+			_boundaryX = x;
+			_boundaryY = y;*/
+		}
 
 		public Game (int id, int hostID, int visibility, string alias,
 				 	 DateTime created, DateTime start, DateTime end,

@@ -2,27 +2,39 @@
 using System.Collections.Generic;
 using Npgsql;
 using System.Data;
+using Microsoft.Win32.SafeHandles;
 
 
 namespace Engine
 {
-	public static class DBController
+	public class DBController
 	{
-		private static DataSet ds = new DataSet();
-		private static DataTable dt = new DataTable();
+		private DataSet ds = new DataSet();
+		private DataTable dt = new DataTable();
+		private NpgsqlConnection conn;
 
 		private static string dbHost = "localhost";
 		private static string dbName = "cornfielddb";
 		private static string dbUser = "cornfield";
 		private static string dbPass = "cornfield";
 
-		public static List<Game> getGames(int accountID)
+		public DBController()
 		{
 			string connstring = String.Format (
-				                    "Server={0};User Id={1};Password={2};Database={3};", 
-				                    dbHost, dbUser, dbPass, dbName);
-			NpgsqlConnection conn = new NpgsqlConnection(connstring);
+				"Server={0};User Id={1};Password={2};Database={3};", 
+				dbHost, dbUser, dbPass, dbName);
+			conn = new NpgsqlConnection(connstring);
 			conn.Open();
+		}
+
+		public void Close()
+		{
+			conn.Close ();
+		}
+
+		public List<Game> GetGames(int accountID)
+		{
+
 			string sql = String.Format (@"SELECT game.* FROM player, game
                            WHERE game.id = player.game_id AND player.owner = {0};", accountID);
 
@@ -30,17 +42,16 @@ namespace Engine
 			ds.Reset();
 			da.Fill(ds);
 			dt = ds.Tables[0];
+
+			List<Game> res = new List<Game>();
 			foreach (DataRow row in dt.Rows)
 			{
-				Console.WriteLine(row.Field<int>(0));
+				res.Add (new Game (row));
 			}
 
 			conn.Close();
 			return null;
 		}
-
-
-
 	}
 }
 
