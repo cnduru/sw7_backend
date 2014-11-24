@@ -22,6 +22,9 @@ namespace Server
             login = (Login) serializer.Deserialize(reader);
             reader.Close();
 
+            // do magic
+            ////
+
             // return XML indicating whether login was successful
             return "";
         }
