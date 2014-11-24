@@ -52,7 +52,6 @@
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Team.cs" />
     <Compile Include="Model\Player.cs" />
-    <Compile Include="Model\Inventory.cs" />
     <Compile Include="Model\Location.cs" />
     <Compile Include="GameThread.cs" />
     <Compile Include="Model\Game.cs" />
@@ -68,7 +67,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
