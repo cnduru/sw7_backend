@@ -1,10 +1,18 @@
 ﻿using System;
+using System.Data;
 
 namespace Engine
 {
 	public class Item
 	{
         private int _id, _itemType, _effect;
+
+		public Item (DataRow row)
+		{
+			_id = row.Field<int> ("id");
+			_itemType = row.Field<int> ("item_type");
+			_effect = row.Field<int> ("effect");
+		}
 
 		public Item (int id, int itemType, int effect)
 		{

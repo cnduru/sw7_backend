@@ -61,6 +61,7 @@
     <Compile Include="GameThread.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="DBController.cs" />
+    <Compile Include="Model\StatusEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
