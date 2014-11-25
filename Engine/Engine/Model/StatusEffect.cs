@@ -5,7 +5,7 @@ using System.Data;
 
 namespace Engine
 {
-	class StatusEffect
+	public class StatusEffect
 	{
 		private int _id, _playerID, _effect;
 		private DateTime _end;
@@ -38,8 +38,5 @@ namespace Engine
 		public DateTime endTime {
 			get { return _end; }
 		}
-
-
 	}
-
 }

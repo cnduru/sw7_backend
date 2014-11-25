@@ -11,7 +11,7 @@ namespace Engine
 		private int? _teamID;
 		private double _locX, _locY;
         private List<Item> _inventory;
-		private List<int> _statusEffects;
+		private List<StatusEffect> _statusEffects;
 
 		public Player (DataRow row)
 		{
@@ -50,7 +50,7 @@ namespace Engine
             get { return _inventory; }
             set { _inventory = value; }
         }
-		public List<int> statusEffects
+		public List<StatusEffect> statusEffects
 		{
 			get { return _statusEffects; }
 			set { _statusEffects = value; }
@@ -73,7 +73,12 @@ namespace Engine
             get { return _gameID; }
         }
 
-        public int teamID
+		public int score
+		{
+			get { return _score; }
+		}
+
+        public int? teamID
         {
             get { return _teamID; }
         }

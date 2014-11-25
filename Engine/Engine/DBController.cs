@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Npgsql;
 using System.Data;
 using Microsoft.Win32.SafeHandles;
+using System.Configuration;
 
 
 namespace Engine
@@ -48,9 +49,20 @@ namespace Engine
 			{
 				res.Add (new Game (row));
 			}
+			return res;
+		}
 
-			conn.Close();
-			return null;
+		public Account getAccount(string name)
+		{
+			string sql = String.Format (@"SELECT * FROM account 
+				WHERE account.username = {0};", name); //TODO SQL INJECTION
+
+			NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
+			ds.Reset();
+			da.Fill(ds);
+			dt = ds.Tables[0];
+			return new Account (dt.Rows [0]);
+
 		}
 	}
 }
