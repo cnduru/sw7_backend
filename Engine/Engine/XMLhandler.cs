@@ -21,7 +21,6 @@ namespace Engine
             Regex rgx = new Regex(pattern, RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(xml);
 
-            bool first = true;
             string[] res = {"", ""};
 
             if (matches.Count > 0)
