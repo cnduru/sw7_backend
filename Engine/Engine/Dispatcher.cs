@@ -22,6 +22,15 @@ namespace Engine
                 string response = Auth.VerifyAccount(loginData[0], loginData[1]);
                 return response;
             }
+            else if(xml.Contains("<JoinGame>"))
+            {
+            }
+            else if(xml.Contains("<LeaveGame>"))
+            {
+            }
+            else if(xml.Contains("<EditPlayerInvites>"))
+            {
+            }
             else
             {
                 // no tag matched a known dispatch instruction
