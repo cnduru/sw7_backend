@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,12 +25,28 @@ namespace Engine
             }
             else if(xml.Contains("<JoinGame>"))
             {
+                string[] joinData = xh.GetJoinGameData(xml);
+
+                //Locate variables in information sent from client
+                // joinData[0] is gameID and joinData[1] is userID
+                string methodCall = "AskDog";
+                object[] methodParams = {joinData[0], joinData[1]};
+
+                //ATTEMPTING TO CALL FUNCTION
+                Type type = typeof(GameThread);
+                MethodInfo method = type.GetMethod(methodCall);
+                GameThread c = AsynchronousSocketListener.gameThreadPool.GetGameInstance(Convert.ToInt32(joinData[0]));
+                string result = (string)method.Invoke(c, methodParams);
+
+                return result;
             }
             else if(xml.Contains("<LeaveGame>"))
             {
+                return "";
             }
             else if(xml.Contains("<EditPlayerInvites>"))
             {
+                return "";
             }
             else
             {

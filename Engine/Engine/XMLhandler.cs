@@ -35,6 +35,28 @@ namespace Engine
 
             return res;
         }
+
+        public string[] GetJoinGameData(string xml)
+        {
+            string pattern = @"<JoinGame><UserId>(\d*)<\S*><GameId>(\d*)<";
+
+            Regex rgx = new Regex(pattern, RegexOptions.IgnoreCase);
+            MatchCollection matches = rgx.Matches(xml);
+
+            string[] res = { "", "" };
+
+            if (matches.Count > 0)
+            {
+                foreach (Match match in matches)
+                {
+                    res[0] = match.Groups[1].Value;
+                    res[1] = match.Groups[2].Value;
+                }
+
+            }
+
+            return res;
+        }
     }
 
   

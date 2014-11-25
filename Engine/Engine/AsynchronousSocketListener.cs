@@ -13,7 +13,7 @@ using System.Reflection;
 namespace Engine {
     class AsynchronousSocketListener {
         // All active gameThreads must be in the gameThreadPool. Otherwise they cannot be targetted.
-        private static GameThreadPool gameThreadPool = new GameThreadPool();
+        public static GameThreadPool gameThreadPool = new GameThreadPool();
 
 
         // Thread signal.
@@ -104,19 +104,6 @@ namespace Engine {
                     // All the data has been read from the client. Display it on the console.
                     Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
                         content.Length, content);
-
-                    //Locate variables in information sent from client
-                    int gameId = 1;
-                    string methodCall = "AskDog";
-                    object[] methodParams = {gameId, "test"};
-                    
-                    //ATTEMPTING TO CALL FUNCTION
-                    Type type = typeof(GameThread);
-                    MethodInfo method = type.GetMethod(methodCall);
-                    GameThread c = gameThreadPool.GetGameInstance(gameId);
-                    string result = (string)method.Invoke(c, methodParams);
-
-                    Console.WriteLine(result);
 
                     // Echo the data back to the client.
                     Send(handler, content);
