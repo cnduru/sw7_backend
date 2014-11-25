@@ -5,29 +5,31 @@ DROP TABLE IF EXISTS location CASCADE;
 DROP TABLE IF EXISTS inventory CASCADE;
 DROP TABLE IF EXISTS team CASCADE;
 DROP TABLE IF EXISTS player CASCADE;
+DROP TABLE IF EXISTS status_effect;
 
 
 CREATE TABLE account
 (
   id serial PRIMARY KEY, 
-  username text NOT NULL
+  username varchar(10) NOT NULL UNIQUE,
+  password varchar(10) NOT NULL
 )
 WITH (
   OIDS=FALSE
 );
 ALTER TABLE account
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE game
 (
   id serial PRIMARY KEY, 
   host_id int NOT NULL REFERENCES account(id),
-  alias text NOT NULL,
-  create_time date NOT NULL,
-  start_time date NOT NULL,
-  end_time date NOT NULL,
   visibility int NOT NULL,
+  alias varchar(10) NOT NULL UNIQUE,
+  create_time timestamp NOT NULL,
+  start_time timestamp NOT NULL,
+  end_time timestamp NOT NULL,
   boundary_x float NOT NULL,
   boundary_y float NOT NULL
 )
@@ -35,7 +37,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE game
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE item
@@ -48,7 +50,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE item
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE team
@@ -60,7 +62,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE team
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE player
@@ -69,13 +71,15 @@ CREATE TABLE player
   owner int NOT NULL REFERENCES account(id),
   game_id int NOT NULL REFERENCES game(id),
   team_id int REFERENCES team(id),
-  score int
+  score int,
+  loc_x float,
+  loc_y float
 )
 WITH (
   OIDS=FALSE
 );
 ALTER TABLE player
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE inventory
@@ -89,7 +93,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE inventory
-  OWNER TO postgres;
+  OWNER TO cornfield;
 
 
 CREATE TABLE location
@@ -105,4 +109,17 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE location
-  OWNER TO postgres;
+  OWNER TO cornfield;
+
+CREATE TABLE status_effect
+(
+  id serial PRIMARY KEY, 
+  player_id int NOT NULL REFERENCES player(id),
+  effect int NOT NULL,
+  end_time timestamp
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE status_effect
+  OWNER TO cornfield;

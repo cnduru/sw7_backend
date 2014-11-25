@@ -41,6 +41,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Npgsql">
+      <HintPath>..\..\sql\Npgsql-2.2.2-net45\Npgsql.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsynchronousSocketListener.cs" />
@@ -60,6 +63,8 @@
     <Compile Include="GameThread.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="XMLhandler.cs" />
+    <Compile Include="DBController.cs" />
+    <Compile Include="Model\StatusEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
