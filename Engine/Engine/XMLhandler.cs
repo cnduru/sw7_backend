@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System.Xml;
 
 namespace Engine
 {
@@ -14,7 +15,7 @@ namespace Engine
         ///<Summary>
         /// Method for extracting login data from XML 
         ///</Summary>
-        public string[] GetLoginData(string xml) //string path = "login.xml")
+        public string[] GetLoginData(string xml) 
         {
             string pattern = @"<Login><Username>([a-zA-Z0-9]*)<\S*<Password>([a-zA-Z0-9]*)<";
 
@@ -36,26 +37,33 @@ namespace Engine
             return res;
         }
 
-        public string[] GetJoinGameData(string xml)
+        public string GetMethodCallFromXML(string xml)
         {
-            string pattern = @"<JoinGame><UserId>(\d*)<\S*><GameId>(\d*)<";
+            int index = xml.IndexOf('>');
+            return xml.Substring(1, index - 1);
+        }
 
-            Regex rgx = new Regex(pattern, RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(xml);
+        public List<String> GetParams(string xml)
+        {
 
-            string[] res = { "", "" };
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            var xx = x.SelectNodes("//text()");
+            List<String> result = new List<string>();
 
-            if (matches.Count > 0)
+            foreach (XmlNode item in xx)
             {
-                foreach (Match match in matches)
-                {
-                    res[0] = match.Groups[1].Value;
-                    res[1] = match.Groups[2].Value;
-                }
-
+                result.Add(item.Value);
             }
 
-            return res;
+            return result;
+        }
+
+        public int GetGameIdFromXML(string xml)
+        {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return Convert.ToInt32(x.SelectNodes("//GameId/text()")[0].Value);
         }
     }
 
