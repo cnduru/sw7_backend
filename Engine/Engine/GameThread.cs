@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Device.Location;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace Engine {
     class GameThread {
@@ -24,8 +26,14 @@ namespace Engine {
             return "win";
         }
 
-        public string AskDog(out int threadId, string hej) {
-            threadId = Thread.CurrentThread.ManagedThreadId;
+        public string AskDog(string hej) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(hej);
+            int test = Convert.ToInt32(x.SelectNodes("//GameId/text()")[0].Value);
+            Console.WriteLine(test);
+            return "Sådan";
+            //threadId = Thread.CurrentThread.ManagedThreadId;
+            /*
             Random rnd = new Random();
 
             if (rnd.Next(0, 2) == 0) {
@@ -33,33 +41,24 @@ namespace Engine {
             } else {
                 return "no" + GameId.ToString() + hej;
             }
-
+            */
         }
 
-        public string EditPlayerInvites(out int threadId, string[] playersToInvite) {
-            threadId = Thread.CurrentThread.ManagedThreadId;
-
-
+        public string EditPlayerInvites(string xml) {
 
             return "This is a dummy message from EditPlayerInvites";
         }
 
-        public string GetPlayerInvites(out int threadId) {
-            threadId = Thread.CurrentThread.ManagedThreadId;
-
-
+        public string GetPlayerInvites() {
 
             return "This is a dummy message from GetPlayerInvites";
         }
 
-        public string JoinGame(out int threadId, string userToInvite) {
-            threadId = Thread.CurrentThread.ManagedThreadId;
-
+        public string JoinGame(string userToInvite) {
             return "This is a dummy mesasge from JoinGame";
         }
 
-        public string LeaveGame(out int threadId, string userToRemove) {
-            threadId = Thread.CurrentThread.ManagedThreadId;
+        public string LeaveGame(string userToRemove) {
 
             return "This is a dummy message from LeaveGame";
         }
