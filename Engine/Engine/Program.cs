@@ -30,10 +30,36 @@ namespace Engine {
             Console.WriteLine(answer); 
              */
 
+            DateTime time1 = DateTime.Now.AddSeconds(5);
+            DateTime time2 = DateTime.Now.AddSeconds(10);
+            DateTime time3 = DateTime.Now.AddSeconds(15);
+            DateTime time4 = DateTime.Now.AddSeconds(20);
+
+            GameEvent event1 = new GameEvent(1, 1, time1);
+            GameEvent event2 = new GameEvent(2, 1, time2);
+            GameEvent event3 = new GameEvent(3, 1, time3);
+            GameEvent event4 = new GameEvent(4, 1, time4);
+
+            GlobalTimerThread.AddGameEvent(event1);
+            GlobalTimerThread.AddGameEvent(event2);
+            GlobalTimerThread.AddGameEvent(event3);
+            GlobalTimerThread.AddGameEvent(event4);
+
+            //Fires up the global timer
+            Thread serverTimerThread = new Thread(new ThreadStart(GlobalTimerThread.Run));
+            serverTimerThread.IsBackground = true;
+            serverTimerThread.Start();
+
+            //Fires up network communication with clients
             AsynchronousSocketListener.StartListening();
+
+
+
+            //Code below will not run. Async-socket-listener will take over main thread.
             Thread socketListener = new Thread(new ThreadStart(AsynchronousSocketListener.StartListening));
             socketListener.IsBackground = true;
             socketListener.Start();
+
         }
     }
 }
