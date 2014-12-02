@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 namespace Engine {
     class Program {
         static void Main(string[] args) {
-            /*
-            GameThreadPool gameThreadPool = new GameThreadPool();
+            
+            //GameThreadPool gameThreadPool = new GameThreadPool();
 
             GameThread gameA = new GameThread(50);
             GameThread gameB = new GameThread(51);
             GameThread gameC = new GameThread(52);
 
-            gameThreadPool.StartThread(0, gameA);
-            gameThreadPool.StartThread(1, gameB);
-            gameThreadPool.StartThread(2, gameC);
-            */
+            AsynchronousSocketListener.gameThreadPool.StartThread(0, gameA);
+            AsynchronousSocketListener.gameThreadPool.StartThread(1, gameB);
+            AsynchronousSocketListener.gameThreadPool.StartThread(2, gameC);
+            
 
             /*
             //Update thread for some reason
@@ -50,16 +50,16 @@ namespace Engine {
             serverTimerThread.IsBackground = true;
             serverTimerThread.Start();
 
+            Dispatcher.Dispatch("<AskDog><UserId>21</UserId><GameId>2</GameId></AskDog>");
+
             //Fires up network communication with clients
             AsynchronousSocketListener.StartListening();
 
-
-
+            /*
             //Code below will not run. Async-socket-listener will take over main thread.
             Thread socketListener = new Thread(new ThreadStart(AsynchronousSocketListener.StartListening));
             socketListener.IsBackground = true;
-            socketListener.Start();
-
+            socketListener.Start();*/
         }
     }
 }
