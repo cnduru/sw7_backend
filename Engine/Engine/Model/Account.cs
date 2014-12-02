@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Engine
 {
@@ -7,13 +8,22 @@ namespace Engine
 	{
 		private int _id;
 		private string _userName;
+		private string _password;
 		private List<Player> _players;
 		private List<Game> _hosting;
 
-		public Account (int id, string userName)
+		public Account(DataRow row)
+		{
+			_id = row.Field<int> ("id");
+			_userName = row.Field<string> ("username");
+			_password = row.Field<string> ("password");
+		}
+
+		public Account (int id, string userName, string password)
 		{
 			_id = id;
 			_userName = userName;
+			_password = password;
 		}
 
 		//Accessors
@@ -22,6 +32,9 @@ namespace Engine
 		}
 		public string userName { 
 			get { return _userName; }
+		}
+		public string password { 
+			get { return _password; }
 		}
 		public List<Player> players	{
 			get { return _players; }

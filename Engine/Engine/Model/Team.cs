@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
+using System.Data;
 
 namespace Engine
 {
@@ -9,10 +10,16 @@ namespace Engine
         private int _id, _score;
         private List<Player> _teamMembers;
 
-		public Team (int id)
+		public Team (DataRow row)
+		{
+			_id = row.Field<int> ("id");
+			_score = row.Field<int> ("score");
+		}
+
+		public Team (int id, int score)
 		{
             _id = id;
-            _teamMembers = new List<Player>();
+			_score = score;
 		}
 
         public int id
@@ -23,7 +30,6 @@ namespace Engine
         public int score
         {
             get { return _score; }
-            set { _score = value; }
         }
 
 		public List<Player> teamMembers

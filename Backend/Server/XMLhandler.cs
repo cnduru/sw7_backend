@@ -13,7 +13,7 @@ namespace Server
         ///<Summary>
         /// Method for deserializing from XML to a login object.
         ///</Summary>
-        public static Login DeserializeLogin(string xml) //string path = "login.xml")
+        public static string AuthenticateLogin(string xml) //string path = "login.xml")
         {
             Login login = new Login();
 
@@ -22,7 +22,11 @@ namespace Server
             login = (Login) serializer.Deserialize(reader);
             reader.Close();
 
-            return login;
+            // do magic
+            ////
+
+            // return XML indicating whether login was successful
+            return "";
         }
 
         /* TEST METHOD

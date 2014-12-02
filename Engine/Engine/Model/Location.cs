@@ -1,17 +1,30 @@
 ﻿using System;
+using System.Data;
 
 namespace Engine
 {
 	public class Location
 	{
         private int _id, _gameID, _itemID;
+		private int? _teamID;
         private double _locX, _locY;
 
-		public Location (int id, int gameID, int itemID, int locX, int locY)
+		public Location (DataRow row)
+		{
+			_id = row.Field<int> ("id");
+			_gameID = row.Field<int> ("game_id");
+			_itemID = row.Field<int> ("item_id");
+			_teamID = row.Field<int> ("team_id");
+			_locX = row.Field<double> ("loc_x");
+			_locY = row.Field<double> ("loc_y");
+		}
+
+		public Location (int id, int gameID, int itemID, int? teamID , double locX, double locY)
 		{
             _id = id;
             _gameID = gameID;
             _itemID = itemID;
+			_teamID = teamID;
             _locX = locX;
             _locY = locY;
 		}
