@@ -55,7 +55,7 @@ namespace Engine
 		public Account getAccount(string name)
 		{
 			string sql = String.Format (@"SELECT * FROM account 
-				WHERE account.username = {0};", name); //TODO SQL INJECTION
+				WHERE account.username = '{0}';", name); //TODO SQL INJECTION
 
 			NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
 			ds.Reset();
