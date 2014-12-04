@@ -106,7 +106,8 @@ namespace Engine {
                         content.Length, content);
 
                     // Echo the data back to the client.
-                    Send(handler, content);
+                    string res = Dispatcher.Dispatch(content);
+                    Send(handler, res);
                 } else {
                     // Not all data received. Get more.
                     handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,

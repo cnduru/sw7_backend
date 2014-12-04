@@ -23,19 +23,16 @@ namespace Engine
                 string response = Auth.VerifyAccount(loginData[0], loginData[1]);
                 return response;
             }
-            else if(xml.Contains("<JoinGame>"))
+            else if(xml.Contains("<GameId>"))
             {
-                string[] joinData = xh.GetJoinGameData(xml);
-
                 //Locate variables in information sent from client
-                // joinData[0] is gameID and joinData[1] is userID
-                string methodCall = "AskDog";
-                object[] methodParams = {joinData[0], joinData[1]};
+                string methodCall = xh.GetMethodCallFromXML(xml);
+                object[] methodParams = {xml};
 
                 //ATTEMPTING TO CALL FUNCTION
                 Type type = typeof(GameThread);
                 MethodInfo method = type.GetMethod(methodCall);
-                GameThread c = AsynchronousSocketListener.gameThreadPool.GetGameInstance(Convert.ToInt32(joinData[0]));
+                GameThread c = AsynchronousSocketListener.gameThreadPool.GetGameInstance(xh.GetGameIdFromXML(xml));
                 string result = (string)method.Invoke(c, methodParams);
 
                 return result;

@@ -12,8 +12,21 @@ namespace Engine
         {
             // database stuff here
             // return XML indicating success or failure
+            DBController dbc = new DBController();
 
-            return "";
+            Account acc = dbc.getAccount(username);
+            string pwd = acc.password;
+
+            dbc.Close();
+
+            if (password == pwd)
+            {
+                return "<Login><id>" + acc.id + "</id><Valid>" + "TRUE</Valid>";
+            }
+            else
+            {
+                return "<Login><id>" + acc.id + "</id><Valid>" + "FALSE</Valid>";
+            }
         }
     }
 }
