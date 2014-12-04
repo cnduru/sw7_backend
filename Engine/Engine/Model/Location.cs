@@ -7,7 +7,7 @@ namespace Engine
 	{
         private int _id, _gameID, _itemID;
 		private int? _teamID;
-        private double _locX, _locY;
+		private double _lat, _lng;
 
 		public Location (DataRow row)
 		{
@@ -15,18 +15,18 @@ namespace Engine
 			_gameID = row.Field<int> ("game_id");
 			_itemID = row.Field<int> ("item_id");
 			_teamID = row.Field<int> ("team_id");
-			_locX = row.Field<double> ("loc_x");
-			_locY = row.Field<double> ("loc_y");
+			_lat = row.Field<double> ("loc_x");
+			_lng = row.Field<double> ("loc_y");
 		}
 
-		public Location (int id, int gameID, int itemID, int? teamID , double locX, double locY)
+		public Location (int id, int gameID, int itemID, int? teamID , double lat, double lng)
 		{
             _id = id;
             _gameID = gameID;
             _itemID = itemID;
 			_teamID = teamID;
-            _locX = locX;
-            _locY = locY;
+            _lat = lat;
+            _lng = lng;
 		}
         
         public int id
@@ -44,15 +44,19 @@ namespace Engine
             get { return _itemID; }
         }
 
-        public double locX
+        public double lat
         {
-            get { return _locX; }
+            get { return _lat; }
         }
 
-        public double locY
+        public double lng
         {
-            get { return _locY; }
+            get { return _lng; }
         }
+		public int? teamID
+		{
+			get { return _teamID; }
+		}
 	}
 }
 

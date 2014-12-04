@@ -50,7 +50,7 @@ namespace Engine {
             serverTimerThread.IsBackground = true;
             serverTimerThread.Start();
 
-            Dispatcher.Dispatch("<AskDog><UserId>21</UserId><GameId>2</GameId></AskDog>");
+            //Dispatcher.Dispatch("<AskDog><UserId>21</UserId><GameId>2</GameId></AskDog>");
 
             //Fires up network communication with clients
             AsynchronousSocketListener.StartListening();
