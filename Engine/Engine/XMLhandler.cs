@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Device.Location;
 using System.Xml.Serialization;
 using System.Xml;
 
@@ -72,6 +73,12 @@ namespace Engine
             return x.SelectNodes("//Name/text()")[0].Value;
         }
 
+        public string GetPrivacyFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return x.SelectNodes("//Privacy/text()")[0].Value;
+        }
+
         public int GetNumberOfTeamsFromXML(string xml) {
             XmlDocument x = new XmlDocument();
             x.LoadXml(xml);
@@ -85,8 +92,8 @@ namespace Engine
             x.LoadXml(xml);
             string seb = x.SelectNodes("//SouthEastBoundary/text()")[0].Value;
 
-            GeoCoordinate seb = new GeoCoordinate(1.2, 1.2);
-
+            GeoCoordinate sebGeo = new GeoCoordinate(1.2, 1.2);
+            return sebGeo;
         }
 
         public GeoCoordinate GetNorthWestBoundaryFromXML(string xml) {
@@ -96,7 +103,8 @@ namespace Engine
             x.LoadXml(xml);
             string nwb = x.SelectNodes("//NorthWestBoundary/text()")[0].Value;
 
-            GeoCoordinate nwb = new GeoCoordinate(1.2, 1.2);
+            GeoCoordinate nwbGeo = new GeoCoordinate(1.2, 1.2);
+            return nwbGeo;
         }
 
         public int GetHostIdFromXML(string xml) {
