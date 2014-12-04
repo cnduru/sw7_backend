@@ -65,6 +65,57 @@ namespace Engine
             x.LoadXml(xml);
             return Convert.ToInt32(x.SelectNodes("//GameId/text()")[0].Value);
         }
+
+        public string GetNameFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return x.SelectNodes("//Name/text()")[0].Value;
+        }
+
+        public int GetNumberOfTeamsFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return Convert.ToInt32(x.SelectNodes("//NumberOfTeams/text()")[0].Value);
+        }
+
+        public GeoCoordinate GetSouthEastBoundaryFromXML(string xml) {
+            // Fix this later
+
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            string seb = x.SelectNodes("//SouthEastBoundary/text()")[0].Value;
+
+            GeoCoordinate seb = new GeoCoordinate(1.2, 1.2);
+
+        }
+
+        public GeoCoordinate GetNorthWestBoundaryFromXML(string xml) {
+            // Fix this later
+
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            string nwb = x.SelectNodes("//NorthWestBoundary/text()")[0].Value;
+
+            GeoCoordinate nwb = new GeoCoordinate(1.2, 1.2);
+        }
+
+        public int GetHostIdFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return Convert.ToInt32(x.SelectNodes("//HostId/text()")[0].Value);
+        }
+
+        public string GetGameStartFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return x.SelectNodes("//GameStart/text()")[0].Value;
+        }
+
+        public string GetGameEndFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return x.SelectNodes("//GameEnd/text()")[0].Value;
+        }
     }
 
   
