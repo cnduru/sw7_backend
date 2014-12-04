@@ -66,6 +66,7 @@
     <Compile Include="XMLhandler.cs" />
     <Compile Include="DBController.cs" />
     <Compile Include="Model\StatusEffect.cs" />
+    <Compile Include="GeoCoordinate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

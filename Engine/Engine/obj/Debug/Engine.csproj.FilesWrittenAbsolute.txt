@@ -1,0 +1,7 @@
+/home/kristian/repos/sw7_backend/Engine/Engine/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/kristian/repos/sw7_backend/Engine/Engine/bin/Debug/Npgsql.dll
+/home/kristian/repos/sw7_backend/Engine/Engine/bin/Debug/Mono.Security.dll
+/home/kristian/repos/sw7_backend/Engine/Engine/bin/Debug/Engine.exe.mdb
+/home/kristian/repos/sw7_backend/Engine/Engine/bin/Debug/Engine.exe
+/home/kristian/repos/sw7_backend/Engine/Engine/obj/Debug/Engine.exe
+/home/kristian/repos/sw7_backend/Engine/Engine/obj/Debug/Engine.exe.mdb
