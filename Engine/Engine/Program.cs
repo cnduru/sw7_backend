@@ -4,10 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Engine {
     class Program {
         static void Main(string[] args) {
+			XmlDocument doc = new XmlDocument();
+			string xml = "<EditPlayerInvites><GameId>k1</GameId><Players>k2</Players><Players>k3</Players></EditPlayerInvites>";
+			doc.LoadXml(xml);
+			var a = doc.SelectNodes ("//text()");
+			var gameID = a [0].Value;
+			var p1 = a [1].Value;
+			var p2 = a [2].Value;
+
+
+
             /*
             GameThreadPool gameThreadPool = new GameThreadPool();
 

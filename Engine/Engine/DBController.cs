@@ -64,6 +64,24 @@ namespace Engine
 			return new Account (dt.Rows [0]);
 
 		}
+
+		public void addLocations(List<Location> lst)
+		{
+			List<string> data = new List<string> ();
+			foreach (Location l in lst) 
+			{
+				data.Add (String.Format ("('{0}','{1}','{2}','{3}','{4}')",
+					l.gameID.ToString (), l.itemID.ToString (), l.lat.ToString (),
+					l.lng.ToString (), l.teamID.ToString ()));
+			}
+
+			string sql = String.Format ("INSERT INTO location (game_id, item_id, loc_x, loc_y, team_id) " +
+				"VALUES {0} ;", String.Join (",", data));
+
+			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
+			command.ExecuteNonQuery();
+
+		}
 	}
 }
 
