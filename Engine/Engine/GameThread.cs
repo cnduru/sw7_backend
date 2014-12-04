@@ -10,6 +10,9 @@ using System.Xml;
 
 namespace Engine {
     class GameThread {
+        // http://adhamhurani.blogspot.dk/2010/08/c-how-to-add-distance-and-calculate-new.html
+        // http://stackoverflow.com/questions/15258078/latitude-longitude-and-meters
+
         int GameId;
         XMLhandler xh = new XMLhandler();
         List<GeoCoordinate> debugList = new List<GeoCoordinate>();
@@ -109,10 +112,10 @@ namespace Engine {
                 Console.WriteLine("sector sliced");
                 for (int i = 0; i < Convert.ToInt32(Math.Floor(Convert.ToDouble(inputCount) / 2)); i++) {
                     // top sector
-                    GetValidGeoCoord(objectLocations, southEastBoundryCoord, northWestBoundaryCoord, sweepWidth, sweepWidth + sectorSlicing, startHeight, endHeight, collisionRadiusInMeters);
+                    GetValidGeoCoord(objectLocations, southEastBoundryCoord, northWestBoundaryCoord, sweepWidth, sweepWidth + sectorSlicing, startHeight, startHeight + heightDivider, collisionRadiusInMeters);
 
                     // bottom sector
-                    GetValidGeoCoord(objectLocations, southEastBoundryCoord, northWestBoundaryCoord, sweepWidth, sweepWidth + sectorSlicing, startHeight, endHeight, collisionRadiusInMeters);
+                    GetValidGeoCoord(objectLocations, southEastBoundryCoord, northWestBoundaryCoord, sweepWidth, sweepWidth + sectorSlicing, startHeight + heightDivider, endHeight, collisionRadiusInMeters);
 
                     sweepWidth += sectorSlicing;
                 }
@@ -135,9 +138,6 @@ namespace Engine {
 
 
         private void GetValidGeoCoord(List<GeoCoordinate> objectLocations, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, double widthMin, double widthMax, double heightMin, double heightMax, int collisionRadiusInMeters) {
-            // 
-            //  http://adhamhurani.blogspot.dk/2010/08/c-how-to-add-distance-and-calculate-new.html
-            // http://stackoverflow.com/questions/15258078/latitude-longitude-and-meters
             GeoCoordinate rndGeoCoord = new GeoCoordinate();
             do {
                 rndGeoCoord = GetRandomGeoCoordOnBoard(widthMin, widthMax, heightMin, heightMax);
@@ -169,7 +169,6 @@ namespace Engine {
             double leftBorder = Math.Min(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
             double topBorder = Math.Max(southEastBoundryCoord.Longitude, northWestBoundaryCoord.Longitude);
             double botBorder = Math.Min(southEastBoundryCoord.Longitude, northWestBoundaryCoord.Longitude);
-
 
             GeoCoordinate leftBorderChecker = new GeoCoordinate(leftBorder, rndGeoCoord.Longitude);
             if (leftBorderChecker.GetDistanceTo(rndGeoCoord) <= collisionRadiusInMeters) {
