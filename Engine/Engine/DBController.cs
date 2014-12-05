@@ -75,19 +75,42 @@ namespace Engine
 					l.lng.ToString (), l.teamID.ToString ()));
 			}
 
-			string sql = String.Format ("INSERT INTO location (game_id, item_id, loc_x, loc_y, team_id) " +
-				"VALUES {0} ;", String.Join (",", data));
+			string sql = String.Format ("INSERT INTO location (game_id, item_id, loc_x, loc_y, team_id) "
+			             + "VALUES {0} ;", String.Join (",", data));
 
 			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
 			command.ExecuteNonQuery();
 
 		}
 
-		public void invitePlayer(int recvID, int gameID)
+		public bool invitePlayer(int recvID, int gameID)
 		{
-			string sql = String.Format ("INSERT INTO player (owner, game_id) VALUES ({0},{1})", recvID, gameID);
+			string sql = String.Format ("INSERT INTO player (owner, game_id) "
+			             + "VALUES ({0},{1})", recvID, gameID);
+
 			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
-			command.ExecuteNonQuery();
+			return command.ExecuteNonQuery () > 0;  //True if rows where affected
+		}
+
+		public bool leaveGame(int gameID, int userID)
+		{
+			string sql = String.Format ("DELETE FROM player "
+			             + "WHERE owner={0} AND game_id={1};", 
+				             userID, gameID);
+
+			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
+			return command.ExecuteNonQuery () > 0;  //True if rows where affected
+		}
+
+		public bool updatePlayerLocation (int userID, int gameID, GeoCoordinate loc)
+		{
+			string sql = String.Format ("UPDATE player "
+			             + "SET loc_x = {0}, loc_y = {1} "
+			             + "WHERE owner={2} AND game_id = {3};", 
+				             loc.Latitude, loc.Longitude, userID, gameID);
+
+			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
+			return command.ExecuteNonQuery () > 0;  //True if rows where affected
 		}
 
 	}
