@@ -4,13 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-//using System.Device.Location;
+using System.Device.Location;
 using System.Xml.Serialization;
 using System.Xml;
 
 namespace Engine {
     class GameThread {
+        // http://adhamhurani.blogspot.dk/2010/08/c-how-to-add-distance-and-calculate-new.html
+        // http://stackoverflow.com/questions/15258078/latitude-longitude-and-meters
+
         int GameId;
+        XMLhandler xh = new XMLhandler();
+        List<GeoCoordinate> debugList = new List<GeoCoordinate>();
+        private static Random seed = new Random();
+        private static Random r1 = new Random(seed.Next(0, 1000000));
+        private static Random r2 = new Random(seed.Next(0, 1000000));
 
         public GameThread(int lobbyId) {
             GameId = lobbyId;
@@ -18,11 +26,35 @@ namespace Engine {
         }
 
         public void Start() {
-            //Setup crates and shit
+            // tell database that the game is live
         }
 
-        public string InitializeGame() {
+        public string InitializeGame(string xml) {
+            GeoCoordinate southEastBoundary = new GeoCoordinate();
+            GeoCoordinate northWestBoundary = new GeoCoordinate();
+            /*
+            string gameName = xh.GetNameFromXML(xml);
+            string privacy = xh.GetPrivacyFromXML(xml);
+            int numberOfTeams = xh.GetNumberOfTeamsFromXML(xml);
+            string gameStart = xh.GetGameStartFromXML(xml);
+            string gameEnd = xh.GetGameEndFromXML(xml);
+            int hostId = xh.GetHostIdFromXML(xml);
+            southEastBoundary = xh.GetSouthEastBoundaryFromXML(xml);
+            northWestBoundary = xh.GetNorthWestBoundaryFromXML(xml);
+            */
+            //This is debug stuff
+            // 57.049062, 9.897923 Aalborg Vestby
+            // 57.022629, 9.955601 Sohngårsholm Parken
+            // 56.834223, 10.118426 Bælum
+            southEastBoundary.Latitude = 57.022629;
+            southEastBoundary.Longitude = 9.955601;
+            northWestBoundary.Latitude = 57.049062;
+            northWestBoundary.Longitude = 9.897923;
 
+            int standardObjectInputCount = 20;
+            int standardCollisionRadiusInMeters = 5;
+            //Setup crates and shit
+            placeObjectsOnRectangularBoard(standardObjectInputCount, southEastBoundary, northWestBoundary, standardCollisionRadiusInMeters);
             return "win";
         }
 
@@ -63,107 +95,103 @@ namespace Engine {
             return "This is a dummy message from LeaveGame";
         }
 
-        private void placeObjectsInRectangularMap(int inputCount, GeoCoordinate mapCoord1, GeoCoordinate mapCoord2) {
-            List<Tuple<int, int>> objectLocationsAsPoint = new List<Tuple<int, int>>();
-            double width = Math.Abs(mapCoord1.Latitude - mapCoord2.Latitude);
-            double height = Math.Abs(mapCoord1.Longitude - mapCoord2.Longitude);
-            double sectorSlicing = width / (inputCount / 2);
-            int heightDivider = Convert.ToInt32(Math.Floor(height / 2));
+        private void placeObjectsOnRectangularBoard(int inputCount, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, int collisionRadiusInMeters) {
+            List<GeoCoordinate> objectLocations = new List<GeoCoordinate>();
+            double startWidth = Math.Min(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
+            double startHeight = Math.Min(southEastBoundryCoord.Longitude, northWestBoundaryCoord.Longitude);
+            double endWidth = Math.Max(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
+            double endHeight = Math.Max(southEastBoundryCoord.Longitude, northWestBoundaryCoord.Longitude);
 
-            double sweepWidth = 0;
-            int collisionRadius = 55;
-            int widthPlacement = 0;
-            int heightPlacement = 0;
-            Random rnd = new Random();
+            double boardWidth = Math.Abs(southEastBoundryCoord.Latitude - northWestBoundaryCoord.Latitude);
+            double boardHeight = Math.Abs(southEastBoundryCoord.Longitude - northWestBoundaryCoord.Longitude);
+            double sectorSlicing = boardWidth / (inputCount / 2);
+            double heightDivider = boardHeight / 2;
+            double sweepWidth = startWidth;
 
-            if (sectorSlicing > collisionRadius) {
-                Console.WriteLine("Slicing Sector. " + sectorSlicing);
-                for (int i = 0; i < Convert.ToInt32(Math.Ceiling(Convert.ToDouble(inputCount) / 2)); i++) {
-                    Console.WriteLine("sweepWidth: " + sweepWidth);
+            if (sectorSlicing> collisionRadiusInMeters * 0.0000449) {
+                Console.WriteLine("sector sliced");
+                for (int i = 0; i < Convert.ToInt32(Math.Floor(Convert.ToDouble(inputCount) / 2)); i++) {
                     // top sector
-                    do {
-                        widthPlacement = rnd.Next(Convert.ToInt32(Math.Floor(sweepWidth)), Convert.ToInt32(Math.Floor(sweepWidth + sectorSlicing)));
-                        heightPlacement = rnd.Next(0, heightDivider);
-                    } while (radiusCollisionDetection(objectLocationsAsPoint, widthPlacement, heightPlacement, collisionRadius) || borderCollisionDetection(mapCoord1, mapCoord2, widthPlacement, heightPlacement, collisionRadius));
-
-                    // Insert code to create object on map here                    
-                    objectLocationsAsPoint.Add(new Tuple<int, int>(widthPlacement, heightPlacement));
+                    GetValidGeoCoord(objectLocations, southEastBoundryCoord, northWestBoundaryCoord, sweepWidth, sweepWidth + sectorSlicing, startHeight, startHeight + heightDivider, collisionRadiusInMeters);
 
                     // bottom sector
-                    do {
-                        widthPlacement = rnd.Next(Convert.ToInt32(Math.Floor(sweepWidth)), Convert.ToInt32(Math.Floor(sweepWidth + sectorSlicing)));
-                        heightPlacement = rnd.Next(heightDivider, Convert.ToInt32(Math.Floor(height)));
-                    } while (radiusCollisionDetection(objectLocationsAsPoint, widthPlacement, heightPlacement, collisionRadius) || borderCollisionDetection(mapCoord1, mapCoord2, widthPlacement, heightPlacement, collisionRadius));
-                    objectLocationsAsPoint.Add(new Tuple<int, int>(widthPlacement, heightPlacement));
+                    GetValidGeoCoord(objectLocations, southEastBoundryCoord, northWestBoundaryCoord, sweepWidth, sweepWidth + sectorSlicing, startHeight + heightDivider, endHeight, collisionRadiusInMeters);
 
                     sweepWidth += sectorSlicing;
                 }
 
-                while (objectLocationsAsPoint.Count < inputCount) {
-                    do {
-                        widthPlacement = rnd.Next(0, Convert.ToInt32(Math.Floor(width)));
-                        heightPlacement = rnd.Next(0, Convert.ToInt32(Math.Floor(height)));
-                    } while (radiusCollisionDetection(objectLocationsAsPoint, widthPlacement, heightPlacement, collisionRadius) || borderCollisionDetection(mapCoord1, mapCoord2, widthPlacement, heightPlacement, collisionRadius));
-                    objectLocationsAsPoint.Add(new Tuple<int, int>(widthPlacement, heightPlacement));
+                if (objectLocations.Count < inputCount) {
+                    // in case of uneven inputCount
+                    GetValidGeoCoord(objectLocations, southEastBoundryCoord, northWestBoundaryCoord, startWidth, endWidth, startHeight, endHeight, collisionRadiusInMeters);
                 }
 
             } else {
-                Console.WriteLine("Not Slicing Sector. " + sectorSlicing);
+                Console.WriteLine("sector not sliced");
+                // in case of too many desired objects on a small map, we just random every point
                 for (int i = 0; i < inputCount; i++) {
-                    do {
-                        widthPlacement = rnd.Next(0, Convert.ToInt32(Math.Floor(width)));
-                        heightPlacement = rnd.Next(0, Convert.ToInt32(Math.Floor(height)));
-                    } while (radiusCollisionDetection(objectLocationsAsPoint, widthPlacement, heightPlacement, collisionRadius) || borderCollisionDetection(mapCoord1, mapCoord2, widthPlacement, heightPlacement, collisionRadius));
-                    // Insert code to create object on map here
-                    objectLocationsAsPoint.Add(new Tuple<int, int>(widthPlacement, heightPlacement));
+                    GetValidGeoCoord(objectLocations, southEastBoundryCoord, northWestBoundaryCoord, startWidth, endWidth, startHeight, endHeight, collisionRadiusInMeters);
                 }
             }
-
-
-
+            debugList = objectLocations.ToList();
         }
 
-        private bool radiusCollisionDetection(List<Tuple<int, int>> objectLocations, int pointX, int pointY, int radius) {
-            foreach (Tuple<int, int> objectLocation in objectLocations) {
-                //detect point in circle e.g. point in another points collision radius
-                //(x - center_x)^2 + (y - center_y)^2 < radius^2
-                if (Math.Pow((pointX - objectLocation.Item1), 2) + Math.Pow((pointY - objectLocation.Item2), 2) < Math.Pow(radius, 2)) {
+
+
+        private void GetValidGeoCoord(List<GeoCoordinate> objectLocations, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, double widthMin, double widthMax, double heightMin, double heightMax, int collisionRadiusInMeters) {
+            GeoCoordinate rndGeoCoord = new GeoCoordinate();
+            do {
+                rndGeoCoord = GetRandomGeoCoordOnBoard(widthMin, widthMax, heightMin, heightMax);
+            } while (radiusCollisionDetection(objectLocations, rndGeoCoord, collisionRadiusInMeters) || borderCollisionDetection(southEastBoundryCoord, northWestBoundaryCoord, rndGeoCoord, collisionRadiusInMeters));
+            objectLocations.Add(rndGeoCoord);
+        }
+
+        private GeoCoordinate GetRandomGeoCoordOnBoard(double widthMin, double widthMax, double heightMin, double heightMax) {
+            double lat = r1.NextDouble() * (widthMax - widthMin) + widthMin;
+            double lon = r2.NextDouble() * (heightMax - heightMin) + heightMin;
+            GeoCoordinate gc = new GeoCoordinate(lat, lon);
+            return gc;
+        }
+
+        // check for collision with other points on board
+        private bool radiusCollisionDetection(List<GeoCoordinate> objectLocations, GeoCoordinate geoCoord, int collisionRadiusInMeters) {
+            foreach (GeoCoordinate objectLocation in objectLocations) {
+                if (objectLocation.GetDistanceTo(geoCoord) <= collisionRadiusInMeters) {
                     return true;
                 }
             }
             return false;
         }
 
-        // check for collision with border on map
-        private bool borderCollisionDetection(GeoCoordinate mapCoord1, GeoCoordinate mapCoord2, int pointX, int pointY, int radius) {
+        // check for collision with border on board
+        private bool borderCollisionDetection(GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, GeoCoordinate rndGeoCoord, int collisionRadiusInMeters) {
 
-            double rightBorder = Math.Max(mapCoord1.Latitude, mapCoord2.Latitude);
-            double leftBorder = Math.Min(mapCoord1.Latitude, mapCoord2.Latitude);
-            double topBorder = Math.Max(mapCoord1.Longitude, mapCoord2.Longitude);
-            double botBorder = Math.Min(mapCoord1.Longitude, mapCoord2.Longitude);
+            double rightBorder = Math.Max(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
+            double leftBorder = Math.Min(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
+            double topBorder = Math.Max(southEastBoundryCoord.Longitude, northWestBoundaryCoord.Longitude);
+            double botBorder = Math.Min(southEastBoundryCoord.Longitude, northWestBoundaryCoord.Longitude);
 
-            //left-border-check
-            if (pointX - radius <= leftBorder) {
+            GeoCoordinate leftBorderChecker = new GeoCoordinate(leftBorder, rndGeoCoord.Longitude);
+            if (leftBorderChecker.GetDistanceTo(rndGeoCoord) <= collisionRadiusInMeters) {
                 return true;
             }
-            //right-border-check
-            if (pointX + radius >= rightBorder) {
+
+            GeoCoordinate rightBorderChecker = new GeoCoordinate(rightBorder, rndGeoCoord.Longitude);
+            if (rightBorderChecker.GetDistanceTo(rndGeoCoord) <= collisionRadiusInMeters) {
                 return true;
             }
-            //top-border-check
-            if (pointY + radius >= topBorder) {
+
+            GeoCoordinate botBorderChecker = new GeoCoordinate(rndGeoCoord.Latitude, botBorder);
+            if (botBorderChecker.GetDistanceTo(rndGeoCoord) <= collisionRadiusInMeters) {
                 return true;
             }
-            //bot-border-check
-            if (pointY - radius <= botBorder) {
+
+            GeoCoordinate topborderChecker = new GeoCoordinate(rndGeoCoord.Latitude, topBorder);
+            if (topborderChecker.GetDistanceTo(rndGeoCoord) <= collisionRadiusInMeters) {
                 return true;
             }
 
             return false;
         }
-
-
-
 
     }
     public delegate string AsyncAskDog(out int threadId, string hej);
