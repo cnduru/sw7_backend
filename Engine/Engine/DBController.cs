@@ -61,8 +61,8 @@ namespace Engine
 			ds.Reset();
 			da.Fill(ds);
 			dt = ds.Tables[0];
-			return new Account (dt.Rows [0]);
 
+			return new Account (dt.Rows [0]);
 		}
 
 		public void addLocations(List<Location> lst)
@@ -82,6 +82,14 @@ namespace Engine
 			command.ExecuteNonQuery();
 
 		}
+
+		public void invitePlayer(int recvID, int gameID)
+		{
+			string sql = String.Format ("INSERT INTO player (owner, game_id) VALUES ({0},{1})", recvID, gameID);
+			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
+			command.ExecuteNonQuery();
+		}
+
 	}
 }
 

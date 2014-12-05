@@ -15,6 +15,4 @@ namespace Engine
 	{
 		public double Latitude, Longitude;
 	}
-
-    
 }
