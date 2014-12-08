@@ -19,9 +19,7 @@ namespace Engine
             if (xml.Contains("<Login>"))
             {
                 // todo: this string should be sent back to the android client
-                string[] loginData = xh.GetLoginData(xml);
-                string response = Auth.VerifyAccount(loginData[0], loginData[1]);
-                return response;
+                return Admin.VerifyAccount(xml);
             }
             else if(xml.Contains("<GameId>"))
             {
