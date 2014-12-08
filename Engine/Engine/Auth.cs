@@ -21,11 +21,11 @@ namespace Engine
 
             if (password == pwd)
             {
-                return "<Login><id>" + acc.id + "</id><Valid>" + "TRUE</Valid>";
+                return "<Login><UserId>" + acc.id + "</UserId><Valid>" + "TRUE" + "</Valid>" + "</Login>";
             }
             else
             {
-                return "<Login><id>" + acc.id + "</id><Valid>" + "FALSE</Valid>";
+                return "<Login><UserId>" + acc.id + "</UserId><Valid>" + "FALSE" + "</Valid>" + "</Login>";
             }
         }
     }
