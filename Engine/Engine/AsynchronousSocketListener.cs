@@ -106,7 +106,7 @@ namespace Engine {
                         content.Length, content);
 
                     // Echo the data back to the client.
-                    string res = Dispatcher.Dispatch(content);
+					string res = Dispatcher.Dispatch(content.Replace("<EOF>", ""));
                     Send(handler, res);
                 } else {
                     // Not all data received. Get more.
