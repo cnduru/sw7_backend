@@ -15,6 +15,7 @@ namespace Engine {
 
         int gameId;
         XMLhandler xh = new XMLhandler();
+        XMLbuilder xb = new XMLbuilder();
         private static Random seed = new Random();
         private static Random r1 = new Random(seed.Next(0, 1000000));
         private static Random r2 = new Random(seed.Next(0, 1000000));
@@ -94,28 +95,14 @@ namespace Engine {
         }
          
         public string JoinGame(string xml) {
+
+
             return "This is a dummy mesasge from JoinGame";
         }
 
         public string LeaveGame(string xml) {
 
             return "This is a dummy message from LeaveGame";
-        }
-
-        public string GetPublicGames(string xml) {
-            DBController dbc = new DBController();
-            List<Game> activeGames = dbc.GetActiveGames();
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<GetPublicGames>");
-            foreach (Game game in activeGames) {
-                if (game.visibility == 1) {
-                    string gameId = "<Game>" + "<GameId>" + game.id + "</GameId>" + "<GameName>" + game.alias + "</GameName>" + "</Game>";
-                    sb.Append(gameId);
-                }
-            }
-            sb.Append("</GetPublicGames>");
-            
-            return sb.ToString();
         }
 
         private List<GeoCoordinate> PlaceObjectsOnRectangularBoard(int inputCount, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, int collisionRadiusInMeters) {

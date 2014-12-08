@@ -44,9 +44,10 @@ namespace Engine
             else if(xml.Contains("<EditPlayerInvites>"))
             {
                 return "";
-            }
-            else
+            } else if (xml.Contains("<GetPublicGames>")) 
             {
+                return Admin.GetPublicGames(xml);
+            } else {
                 // no tag matched a known dispatch instruction
                 return @"<Error>Message not understood</Error>";
             }

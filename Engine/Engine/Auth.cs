@@ -8,8 +8,11 @@ namespace Engine
 {
     static class Auth
     {
+
         public static string VerifyAccount(string username, string password)
         {
+            XMLbuilder xb = new XMLbuilder();
+
             // database stuff here
             // return XML indicating success or failure
             DBController dbc = new DBController();
@@ -21,11 +24,11 @@ namespace Engine
 
             if (password == pwd)
             {
-                return "<Login><UserId>" + acc.id + "</UserId><Valid>" + "TRUE" + "</Valid>" + "</Login>";
+                return xb.LoginSuccesful(acc);
             }
             else
             {
-                return "<Login><UserId>" + acc.id + "</UserId><Valid>" + "FALSE" + "</Valid>" + "</Login>";
+                return xb.LoginFailed(acc);    
             }
         }
     }
