@@ -11,8 +11,6 @@
     <AssemblyName>Engine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -67,6 +65,7 @@
     <Compile Include="XMLhandler.cs" />
     <Compile Include="DBController.cs" />
     <Compile Include="Model\StatusEffect.cs" />
+    <Compile Include="XMLbuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
