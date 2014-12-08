@@ -73,6 +73,12 @@ namespace Engine
             return x.SelectNodes("//Name/text()")[0].Value;
         }
 
+        public int GetUserIdFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return Convert.ToInt32(x.SelectNodes("//UserId/text()")[0].Value);
+        }
+
         public string GetPrivacyFromXML(string xml) {
             XmlDocument x = new XmlDocument();
             x.LoadXml(xml);

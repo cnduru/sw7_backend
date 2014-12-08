@@ -95,9 +95,11 @@ namespace Engine {
         }
          
         public string JoinGame(string xml) {
+            DBController dbc = new DBController();
+            dbc.invitePlayer(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml));
+            dbc.Close();
 
-
-            return "This is a dummy mesasge from JoinGame";
+            return xb.InviteComplete();
         }
 
         public string LeaveGame(string xml) {

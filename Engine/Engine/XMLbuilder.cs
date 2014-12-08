@@ -25,5 +25,10 @@ namespace Engine {
         public string LoginFailed(Account acc) {
             return "<Login><UserId>" + acc.id + "</UserId><Valid>" + "FALSE" + "</Valid>" + "</Login>";
         }
+
+        public string InviteComplete() {
+            return "<JoinGame>" + "<Message>" + "TRUE" + "</Message>" + "</JoinGame>";
+        }
+
     }
 }
