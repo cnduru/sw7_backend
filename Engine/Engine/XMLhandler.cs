@@ -68,6 +68,12 @@ namespace Engine
             return Convert.ToInt32(x.SelectNodes("//GameId/text()")[0].Value);
         }
 
+        public string GetNameFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return x.SelectNodes("//Name/text()")[0].Value;
+        }
+
         public string GetUsernameFromXML(string xml) {
             XmlDocument x = new XmlDocument();
             x.LoadXml(xml);
