@@ -4,7 +4,7 @@ using Npgsql;
 using System.Data;
 using Microsoft.Win32.SafeHandles;
 using System.Configuration;
-using System.Device.Location;
+//using System.Device.Location;
 
 
 namespace Engine
@@ -134,7 +134,7 @@ namespace Engine
 			return command.ExecuteNonQuery () > 0;  //True if rows where affected
 		}
 
-		public bool leaveGame(int gameID, int userID)
+		public bool leaveGame(int userID, int gameID)
 		{
 			string sql = String.Format ("DELETE FROM player "
 			             + "WHERE owner={0} AND game_id={1};", 
