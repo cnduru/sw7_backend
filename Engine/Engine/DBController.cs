@@ -34,6 +34,29 @@ namespace Engine
 			conn.Close ();
 		}
 
+		private List<Game> getStuff(string sql)
+		{
+			return null;
+		}
+
+		public List<Game> GetActiveGames()
+		{
+
+			string sql = "SELECT * FROM game WHERE game.visibility > 0";
+
+			NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
+			ds.Reset();
+			da.Fill(ds);
+			dt = ds.Tables[0];
+
+			List<Game> res = new List<Game>();
+			foreach (DataRow row in dt.Rows)
+			{
+				res.Add (new Game (row));
+			}
+			return res;
+		}
+
 		public List<Game> GetGames(int accountID)
 		{
 
