@@ -16,7 +16,7 @@ namespace Engine
 		private NpgsqlConnection conn;
 
 		private static string dbHost = "localhost";
-		private static string dbName = "cornfielddb";
+		private static string dbName = "CornfieldDB";
 		private static string dbUser = "cornfield";
 		private static string dbPass = "cornfield";
 
