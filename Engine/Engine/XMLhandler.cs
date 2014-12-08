@@ -130,6 +130,14 @@ namespace Engine
             x.LoadXml(xml);
             return x.SelectNodes("//GameEnd/text()")[0].Value;
         }
+
+        public GeoCoordinate GetGeoCoordinateFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            double lat = Convert.ToDouble(x.SelectNodes("//Latitude/text()")[0].Value);
+            double lng = Convert.ToDouble(x.SelectNodes("//Longitude/text()")[0].Value);
+            return new GeoCoordinate(lat, lng);
+        }
     }
 
   

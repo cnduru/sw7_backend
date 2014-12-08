@@ -110,6 +110,15 @@ namespace Engine {
             return xb.LeaveGameComplete();
         }
 
+        public string UpdatePlayerLocation(string xml) {
+            DBController dbc = new DBController();
+            dbc.updatePlayerLocation(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml), xh.GetGeoCoordinateFromXML(xml));
+            List<Player> playersInGame = dbc.GetPlayers(xh.GetGameIdFromXML(xml));
+            dbc.Close();
+
+            return xb.GameUpdate(playersInGame, xh.GetGameIdFromXML(xml));
+        }
+
         private List<GeoCoordinate> PlaceObjectsOnRectangularBoard(int inputCount, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, int collisionRadiusInMeters) {
             List<GeoCoordinate> objectLocations = new List<GeoCoordinate>();
             double startWidth = Math.Min(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
