@@ -52,6 +52,24 @@ namespace Engine
 			return res;
 		}
 
+		public List<Player> GetPlayers(int gameID)
+		{
+			string sql = String.Format (@"SELECT * FROM player
+                           WHERE player.game_id = {0}", gameID);
+
+			NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
+			ds.Reset();
+			da.Fill(ds);
+			dt = ds.Tables[0];
+
+			List<Player> res = new List<Player>();
+			foreach (DataRow row in dt.Rows)
+			{
+				res.Add (new Player (row));
+			}
+			return res;
+		}
+
 		public Account getAccount(string name)
 		{
 			string sql = String.Format (@"SELECT * FROM account 
