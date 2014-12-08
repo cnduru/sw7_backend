@@ -18,6 +18,7 @@ namespace Engine
         ///</Summary>
         public string[] GetLoginData(string xml) 
         {
+
             string pattern = @"<Login><Username>([a-zA-Z0-9]*)<\S*<Password>([a-zA-Z0-9]*)<";
 
             Regex rgx = new Regex(pattern, RegexOptions.IgnoreCase);
@@ -67,10 +68,16 @@ namespace Engine
             return Convert.ToInt32(x.SelectNodes("//GameId/text()")[0].Value);
         }
 
-        public string GetNameFromXML(string xml) {
+        public string GetUsernameFromXML(string xml) {
             XmlDocument x = new XmlDocument();
             x.LoadXml(xml);
-            return x.SelectNodes("//Name/text()")[0].Value;
+            return x.SelectNodes("//Username/text()")[0].Value;
+        }
+
+        public string GetPasswordFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return x.SelectNodes("//Password/text()")[0].Value;
         }
 
         public int GetUserIdFromXML(string xml) {

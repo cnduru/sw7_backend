@@ -30,5 +30,24 @@ namespace Engine {
 
             return xb.PublicGamesAsXML(publicGames);
         }
+
+        public static string VerifyAccount(string xml) {
+            XMLhandler xh = new XMLhandler();
+            XMLbuilder xb = new XMLbuilder();
+            // database stuff here
+            // return XML indicating success or failure
+            DBController dbc = new DBController();
+
+            Account acc = dbc.getAccount(xh.GetUsernameFromXML(xml));
+            dbc.Close();
+
+            string pwd = acc.password;
+            
+            if (xh.GetPasswordFromXML(xml) == pwd) {
+                return xb.LoginSuccesful(acc);
+            } else {
+                return xb.LoginFailed(acc);
+            }
+        }
     }
 }
