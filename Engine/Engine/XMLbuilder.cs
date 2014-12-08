@@ -30,5 +30,9 @@ namespace Engine {
             return "<JoinGame>" + "<Message>" + "TRUE" + "</Message>" + "</JoinGame>";
         }
 
+        public string LeaveGameComplete() {
+            return "<LeaveGame>" + "<Message>" + "TRUE" + "</Message>" + "</LeaveGame>";
+        }
+
     }
 }
