@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 namespace Engine {
     class Program {
         static void Main(string[] args) {
-            
-            //GameThreadPool gameThreadPool = new GameThreadPool();
-
+            /*
             GameThread gameA = new GameThread(50);
             GameThread gameB = new GameThread(51);
             GameThread gameC = new GameThread(52);
@@ -19,17 +17,6 @@ namespace Engine {
             AsynchronousSocketListener.gameThreadPool.StartThread(1, gameB);
             AsynchronousSocketListener.gameThreadPool.StartThread(2, gameC);
             
-
-            /*
-            //Update thread for some reason
-            AsyncAskDog caller = new AsyncAskDog(gameThreadPool.GetGameInstance(2).AskDog);
-            int threadId;
-            IAsyncResult result = caller.BeginInvoke(out threadId, "Penis", null, null);
-            string answer = caller.EndInvoke(out threadId, result);
-
-            Console.WriteLine(answer); 
-             */
-
             DateTime time1 = DateTime.Now.AddSeconds(5);
             DateTime time2 = DateTime.Now.AddSeconds(10);
             DateTime time3 = DateTime.Now.AddSeconds(15);
@@ -44,6 +31,9 @@ namespace Engine {
             GlobalTimerThread.AddGameEvent(event2);
             GlobalTimerThread.AddGameEvent(event3);
             GlobalTimerThread.AddGameEvent(event4);
+            */
+
+            Admin.RecoverAndStartActiveGames();
 
             //Fires up the global timer
             Thread serverTimerThread = new Thread(new ThreadStart(GlobalTimerThread.Run));

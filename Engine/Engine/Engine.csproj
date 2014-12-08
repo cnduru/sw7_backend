@@ -47,6 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin.cs" />
     <Compile Include="AsynchronousSocketListener.cs" />
     <Compile Include="Auth.cs" />
     <Compile Include="Dispatcher.cs" />

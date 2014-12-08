@@ -13,15 +13,14 @@ namespace Engine {
         // http://adhamhurani.blogspot.dk/2010/08/c-how-to-add-distance-and-calculate-new.html
         // http://stackoverflow.com/questions/15258078/latitude-longitude-and-meters
 
-        int GameId;
+        int gameId;
         XMLhandler xh = new XMLhandler();
-        List<GeoCoordinate> debugList = new List<GeoCoordinate>();
         private static Random seed = new Random();
         private static Random r1 = new Random(seed.Next(0, 1000000));
         private static Random r2 = new Random(seed.Next(0, 1000000));
 
         public GameThread(int lobbyId) {
-            GameId = lobbyId;
+            gameId = lobbyId;
             //Get if lobbyId in DB has time limit - If yes
         }
 
@@ -32,7 +31,7 @@ namespace Engine {
         public string InitializeGame(string xml) {
             GeoCoordinate southEastBoundary = new GeoCoordinate();
             GeoCoordinate northWestBoundary = new GeoCoordinate();
-            /*
+
             string gameName = xh.GetNameFromXML(xml);
             string privacy = xh.GetPrivacyFromXML(xml);
             int numberOfTeams = xh.GetNumberOfTeamsFromXML(xml);
@@ -41,7 +40,9 @@ namespace Engine {
             int hostId = xh.GetHostIdFromXML(xml);
             southEastBoundary = xh.GetSouthEastBoundaryFromXML(xml);
             northWestBoundary = xh.GetNorthWestBoundaryFromXML(xml);
-            */
+
+
+
             //This is debug stuff
             // 57.049062, 9.897923 Aalborg Vestby
             // 57.022629, 9.955601 Sohngårsholm Parken
@@ -51,11 +52,15 @@ namespace Engine {
             northWestBoundary.Latitude = 57.049062;
             northWestBoundary.Longitude = 9.897923;
 
+            //Standard numbers. Used if not user-supplied
             int standardObjectInputCount = 20;
             int standardCollisionRadiusInMeters = 5;
-            //Setup crates and shit
-            placeObjectsOnRectangularBoard(standardObjectInputCount, southEastBoundary, northWestBoundary, standardCollisionRadiusInMeters);
-            return "win";
+            
+            //Initialize Items and store them in the database
+            List<GeoCoordinate> objectLocations = PlaceObjectsOnRectangularBoard(standardObjectInputCount, southEastBoundary, northWestBoundary, standardCollisionRadiusInMeters);
+            StoreObjectLocationsInDB(objectLocations, gameId);
+
+            return "Initialization complete";
         }
 
         public string AskDog(string hej) {
@@ -81,21 +86,23 @@ namespace Engine {
             return "This is a dummy message from EditPlayerInvites";
         }
 
-        public string GetPlayerInvites() {
-
+        public string GetPlayerInvites(string xml) {
+            DBController dbc = new DBController();
+            
+            dbc.Close();
             return "This is a dummy message from GetPlayerInvites";
         }
-
-        public string JoinGame(string userToInvite) {
+         
+        public string JoinGame(string xml) {
             return "This is a dummy mesasge from JoinGame";
         }
 
-        public string LeaveGame(string userToRemove) {
+        public string LeaveGame(string xml) {
 
             return "This is a dummy message from LeaveGame";
         }
 
-        private void placeObjectsOnRectangularBoard(int inputCount, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, int collisionRadiusInMeters) {
+        private List<GeoCoordinate> PlaceObjectsOnRectangularBoard(int inputCount, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, int collisionRadiusInMeters) {
             List<GeoCoordinate> objectLocations = new List<GeoCoordinate>();
             double startWidth = Math.Min(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
             double startHeight = Math.Min(southEastBoundryCoord.Longitude, northWestBoundaryCoord.Longitude);
@@ -132,7 +139,8 @@ namespace Engine {
                     GetValidGeoCoord(objectLocations, southEastBoundryCoord, northWestBoundaryCoord, startWidth, endWidth, startHeight, endHeight, collisionRadiusInMeters);
                 }
             }
-            debugList = objectLocations.ToList();
+
+            return objectLocations;
         }
 
 
@@ -141,7 +149,7 @@ namespace Engine {
             GeoCoordinate rndGeoCoord = new GeoCoordinate();
             do {
                 rndGeoCoord = GetRandomGeoCoordOnBoard(widthMin, widthMax, heightMin, heightMax);
-            } while (radiusCollisionDetection(objectLocations, rndGeoCoord, collisionRadiusInMeters) || borderCollisionDetection(southEastBoundryCoord, northWestBoundaryCoord, rndGeoCoord, collisionRadiusInMeters));
+            } while (RadiusCollisionDetection(objectLocations, rndGeoCoord, collisionRadiusInMeters) || BorderCollisionDetection(southEastBoundryCoord, northWestBoundaryCoord, rndGeoCoord, collisionRadiusInMeters));
             objectLocations.Add(rndGeoCoord);
         }
 
@@ -153,7 +161,7 @@ namespace Engine {
         }
 
         // check for collision with other points on board
-        private bool radiusCollisionDetection(List<GeoCoordinate> objectLocations, GeoCoordinate geoCoord, int collisionRadiusInMeters) {
+        private bool RadiusCollisionDetection(List<GeoCoordinate> objectLocations, GeoCoordinate geoCoord, int collisionRadiusInMeters) {
             foreach (GeoCoordinate objectLocation in objectLocations) {
                 if (objectLocation.GetDistanceTo(geoCoord) <= collisionRadiusInMeters) {
                     return true;
@@ -163,7 +171,7 @@ namespace Engine {
         }
 
         // check for collision with border on board
-        private bool borderCollisionDetection(GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, GeoCoordinate rndGeoCoord, int collisionRadiusInMeters) {
+        private bool BorderCollisionDetection(GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, GeoCoordinate rndGeoCoord, int collisionRadiusInMeters) {
 
             double rightBorder = Math.Max(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
             double leftBorder = Math.Min(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
@@ -191,6 +199,21 @@ namespace Engine {
             }
 
             return false;
+        }
+
+        private int GenerateRandomItems(int from, int to) {
+            return r1.Next(from, to);
+        }
+		
+        private void StoreObjectLocationsInDB(List<GeoCoordinate> objectLocations, int gameId) {
+            List<Location> locationsToStore = new List<Location>();
+            foreach (GeoCoordinate location in objectLocations) {
+                locationsToStore.Add(new Location(0, gameId, GenerateRandomItems(1,4), 0, location.Latitude, location.Longitude));
+            }
+
+            DBController dbc = new DBController();
+            dbc.addLocations(locationsToStore);
+            dbc.Close();
         }
 
     }
