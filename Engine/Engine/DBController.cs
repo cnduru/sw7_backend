@@ -34,23 +34,22 @@ namespace Engine
 			conn.Close ();
 		}
 
-		private List<Game> getStuff(string sql)
+		private DataRowCollection getStuff(string sql)
 		{
-			return null;
-		}
-
-		public List<Game> GetActiveGames()
-		{
-
-			string sql = "SELECT * FROM game WHERE game.visibility > 0";
-
 			NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
 			ds.Reset();
 			da.Fill(ds);
 			dt = ds.Tables[0];
 
+			return dt.Rows;
+		}
+
+		public List<Game> GetActiveGames()
+		{
+			string sql = "SELECT * FROM game WHERE game.visibility > 0";
+
 			List<Game> res = new List<Game>();
-			foreach (DataRow row in dt.Rows)
+			foreach (DataRow row in getStuff(sql))
 			{
 				res.Add (new Game (row));
 			}
@@ -59,17 +58,11 @@ namespace Engine
 
 		public List<Game> GetGames(int accountID)
 		{
-
 			string sql = String.Format (@"SELECT game.* FROM player, game
                            WHERE game.id = player.game_id AND player.owner = {0};", accountID);
 
-			NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
-			ds.Reset();
-			da.Fill(ds);
-			dt = ds.Tables[0];
-
 			List<Game> res = new List<Game>();
-			foreach (DataRow row in dt.Rows)
+			foreach (DataRow row in getStuff(sql))
 			{
 				res.Add (new Game (row));
 			}
@@ -81,13 +74,8 @@ namespace Engine
 			string sql = String.Format (@"SELECT * FROM player
                            WHERE player.game_id = {0}", gameID);
 
-			NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
-			ds.Reset();
-			da.Fill(ds);
-			dt = ds.Tables[0];
-
 			List<Player> res = new List<Player>();
-			foreach (DataRow row in dt.Rows)
+			foreach (DataRow row in getStuff(sql))
 			{
 				res.Add (new Player (row));
 			}
@@ -99,15 +87,11 @@ namespace Engine
 			string sql = String.Format (@"SELECT * FROM account 
 				WHERE account.username = '{0}';", name); //TODO SQL INJECTION
 
-			NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
-			ds.Reset();
-			da.Fill(ds);
-			dt = ds.Tables[0];
-
-			return new Account (dt.Rows [0]);
+			return new Account (getStuff(sql) [0]);
 		}
 
-		public void addLocations(List<Location> lst)
+		//UPDATES
+		public bool addLocations(List<Location> lst)
 		{
 			List<string> data = new List<string> ();
 			foreach (Location l in lst) 
@@ -121,14 +105,13 @@ namespace Engine
 			             + "VALUES {0} ;", String.Join (",", data));
 
 			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
-			command.ExecuteNonQuery();
-
+			return command.ExecuteNonQuery() > 0;
 		}
 
-		public bool invitePlayer(int userId, int gameId)
+		public bool invitePlayer(int userID, int gameID)
 		{
 			string sql = String.Format ("INSERT INTO player (owner, game_id) "
-			             + "VALUES ({0},{1})", userId, gameId);
+			             + "VALUES ({0},{1})", userID, gameID);
 
 			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
 			return command.ExecuteNonQuery () > 0;  //True if rows where affected

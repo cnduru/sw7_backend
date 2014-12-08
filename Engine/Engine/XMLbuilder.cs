@@ -34,5 +34,20 @@ namespace Engine {
             return "<LeaveGame>" + "<Message>" + "TRUE" + "</Message>" + "</LeaveGame>";
         }
 
+        public string GameUpdate(List<Player> playersInGame, int gameId) {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<GameUpdate>");
+            sb.Append("<GameId>" + gameId + "</GameId>");
+            foreach (Player player in playersInGame) {
+                sb.Append("<Player>");
+                sb.Append("<UserId>" + player.id + "</UserId>");
+                sb.Append("<Latitude>" + player.locX + "</Latitude>");
+                sb.Append("<Longitude>" + player.locY + "</Longitude>");
+                sb.Append("</Player>");
+            }
+            sb.Append("</GameUpdate>");
+            return sb.ToString();
+        }
+
     }
 }
