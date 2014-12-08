@@ -103,8 +103,11 @@ namespace Engine {
         }
 
         public string LeaveGame(string xml) {
+            DBController dbc = new DBController();
+            dbc.leaveGame(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml));
+            dbc.Close();
 
-            return "This is a dummy message from LeaveGame";
+            return xb.LeaveGameComplete();
         }
 
         private List<GeoCoordinate> PlaceObjectsOnRectangularBoard(int inputCount, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, int collisionRadiusInMeters) {
