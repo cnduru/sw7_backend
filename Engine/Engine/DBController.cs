@@ -106,13 +106,12 @@ namespace Engine
 
 			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
 			return command.ExecuteNonQuery() > 0;
-
 		}
 
-		public bool invitePlayer(int userId, int gameId)
+		public bool invitePlayer(int userID, int gameID)
 		{
 			string sql = String.Format ("INSERT INTO player (owner, game_id) "
-			             + "VALUES ({0},{1})", userId, gameId);
+			             + "VALUES ({0},{1})", userID, gameID);
 
 			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
 			return command.ExecuteNonQuery () > 0;  //True if rows where affected
