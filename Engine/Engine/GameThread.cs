@@ -108,8 +108,10 @@ namespace Engine {
             StringBuilder sb = new StringBuilder();
             sb.Append("<GetPublicGames>");
             foreach (Game game in activeGames) {
-                string gameId = "<Game>" + "<GameId>" + game.id + "</GameId>" + "<GameName>" + game.alias + "</GameName>" + "</Game>";
-                sb.Append(gameId);
+                if (game.visibility == 1) {
+                    string gameId = "<Game>" + "<GameId>" + game.id + "</GameId>" + "<GameName>" + game.alias + "</GameName>" + "</Game>";
+                    sb.Append(gameId);
+                }
             }
             sb.Append("</GetPublicGames>");
             
