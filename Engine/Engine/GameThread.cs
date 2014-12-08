@@ -102,6 +102,20 @@ namespace Engine {
             return "This is a dummy message from LeaveGame";
         }
 
+        public string GetPublicGames(string xml) {
+            DBController dbc = new DBController();
+            List<Game> activeGames = dbc.GetActiveGames();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<GetPublicGames>");
+            foreach (Game game in activeGames) {
+                string gameId = "<Game>" + "<GameId>" + game.id + "</GameId>" + "<GameName>" + game.alias + "</GameName>" + "</Game>";
+                sb.Append(gameId);
+            }
+            sb.Append("</GetPublicGames>");
+            
+            return sb.ToString();
+        }
+
         private List<GeoCoordinate> PlaceObjectsOnRectangularBoard(int inputCount, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, int collisionRadiusInMeters) {
             List<GeoCoordinate> objectLocations = new List<GeoCoordinate>();
             double startWidth = Math.Min(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
