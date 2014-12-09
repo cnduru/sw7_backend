@@ -116,7 +116,7 @@ namespace Engine {
             List<Player> playersInGame = dbc.GetPlayers(xh.GetGameIdFromXML(xml));
             List<Player> activePlayersInGame = new List<Player>();
             foreach (Player player in playersInGame) {
-                if (!(player.locX == null)) {
+                if (!(player.locX == null) || !(player.id == xh.GetUserIdFromXML(xml))) {
                     activePlayersInGame.Add(player);
                 }
             }
