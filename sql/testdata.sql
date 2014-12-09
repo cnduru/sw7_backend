@@ -7,5 +7,5 @@ INSERT INTO game (host_id, alias, create_time, start_time, end_time, visibility,
     VALUES (1, 'othergame', current_date, current_date, current_date, 1, 3.4, 4.3, 2.3, 23.1);
 
 INSERT INTO player (owner, game_id) VALUES (1,1);
-INSERT INTO player (owner, game_id) VALUES (2,1);
+INSERT INTO player (owner, game_id, loc_x, loc_y) VALUES (2,1,57.017638, 9.975122);
 
