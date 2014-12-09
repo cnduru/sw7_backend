@@ -114,10 +114,28 @@ namespace Engine {
             DBController dbc = new DBController();
             dbc.UpdatePlayerLocation(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml), xh.GetGeoCoordinateFromXML(xml));
             List<Player> playersInGame = dbc.GetPlayers(xh.GetGameIdFromXML(xml));
+            List<Player> activePlayersInGame = new List<Player>();
+            foreach (Player player in playersInGame) {
+                if (!(player.locX == null)) {
+                    activePlayersInGame.Add(player);
+                }
+            }
+
             dbc.Close();
 
-            return xb.GameUpdate(playersInGame, xh.GetGameIdFromXML(xml));
+            return xb.GameUpdate(activePlayersInGame, xh.GetGameIdFromXML(xml));
         }
+
+                /*
+        public string LobbyInfo(string xml) {
+            DBController dbc = new DBController();
+            //fix kristian
+            Game game;
+            dbc.Close();
+
+            return xb.LobbyInfo(game);
+        }
+        */
 
         private List<GeoCoordinate> PlaceObjectsOnRectangularBoard(int inputCount, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, int collisionRadiusInMeters) {
             List<GeoCoordinate> objectLocations = new List<GeoCoordinate>();
