@@ -103,7 +103,7 @@ namespace Engine
 				WHERE account.username = '{0}';", name); //TODO SQL INJECTION
 
 			DataRowCollection res = Query (sql);
-			if (res.Count == 0)
+			if (res.Count == 1)
 				return new Account (res [0]);
 			else
 				return null;
