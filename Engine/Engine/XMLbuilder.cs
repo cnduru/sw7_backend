@@ -19,19 +19,39 @@ namespace Engine {
         }
 
         public string LoginSuccesful(Account acc) {
-            return "<Login><UserId>" + acc.id + "</UserId><Valid>" + "TRUE" + "</Valid>" + "</Login>";
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<Login>");
+            sb.Append("<UserId>" + acc.id + "</UserId>");
+            sb.Append("<Valid>" + "TRUE" + "</Valid>");
+            sb.Append("</Login>");
+
+            return sb.ToString();
         }
 
         public string LoginFailed(Account acc) {
-            return "<Login><UserId>" + acc.id + "</UserId><Valid>" + "FALSE" + "</Valid>" + "</Login>";
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<Login>");
+            sb.Append("<UserId>" + acc.id + "</UserId>");
+            sb.Append("<Valid>" + "FALSE" + "</Valid>");
+            sb.Append("</Login>");
+
+            return sb.ToString();
         }
 
         public string InviteComplete() {
-            return "<JoinGame>" + "<Message>" + "TRUE" + "</Message>" + "</JoinGame>";
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<JoinGame>");
+            sb.Append("<Message>" + "TRUE " + "</Message>");
+            sb.Append("</JoinGame>");
+            return sb.ToString();
         }
 
         public string LeaveGameComplete() {
-            return "<LeaveGame>" + "<Message>" + "TRUE" + "</Message>" + "</LeaveGame>";
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<LeaveGame>");
+            sb.Append("<Message>" + "TRUE " + "</Message>");
+            sb.Append("</LeaveGame>");
+            return sb.ToString();
         }
 
         public string GameUpdate(List<Player> playersInGame, int gameId) {
@@ -62,5 +82,23 @@ namespace Engine {
             return sb.ToString();
         }
 
+        public string LobbyInfo(Game game) {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<LobbyInfo>");
+            sb.Append("<Privacy>" + game.visibility + "</Privacy>");
+            sb.Append("<NumberOfTeams>" + game.teams + "</NumberOfTeams>");
+            sb.Append("<GameEnd>" + game.end + "</GameEnd>");
+            sb.Append("<SouthEastboundary>");
+            sb.Append("<Latitude>" + "FIX KRISTIAN" + "</Latitude>");
+            sb.Append("<Longitude>" + "FIX KRISTIAN" + "</Longitude>");
+            sb.Append("</SouthEastboundary>");
+            sb.Append("<NorthWestBoundary>");
+            sb.Append("<Latitude>" + "FIX KRISTIAN" + "</Latitude>");
+            sb.Append("<Longitude>" + "FIX KRISTIAN" + "</Longitude>");
+            sb.Append("</NorthWestBoundary>");
+            sb.Append("</LobbyInfo>");
+
+            return sb.ToString();
+        }
     }
 }
