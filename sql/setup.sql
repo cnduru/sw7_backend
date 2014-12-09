@@ -1,3 +1,3 @@
 CREATE USER cornfield WITH PASSWORD 'cornfield';
 
-CREATE DATABASE cornfieldDB OWNER cornfield;
+CREATE DATABASE CornfieldDB OWNER cornfield;

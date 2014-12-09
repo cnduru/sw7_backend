@@ -30,8 +30,10 @@ CREATE TABLE game
   create_time timestamp NOT NULL,
   start_time timestamp NOT NULL,
   end_time timestamp NOT NULL,
-  boundary_x float NOT NULL,
-  boundary_y float NOT NULL
+  boundary_nw_x float NOT NULL,
+  boundary_nw_y float NOT NULL,
+  boundary_se_x float NOT NULL,
+  boundary_se_y float NOT NULL
 )
 WITH (
   OIDS=FALSE
