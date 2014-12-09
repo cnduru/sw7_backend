@@ -38,7 +38,7 @@ namespace Engine {
             // return XML indicating success or failure
             DBController dbc = new DBController();
 
-            Account acc = dbc.getAccount(xh.GetUsernameFromXML(xml));
+            Account acc = dbc.GetAccount(xh.GetUsernameFromXML(xml));
             dbc.Close();
 
             string pwd = acc.password;

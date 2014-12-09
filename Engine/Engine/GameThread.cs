@@ -96,7 +96,7 @@ namespace Engine {
          
         public string JoinGame(string xml) {
             DBController dbc = new DBController();
-            dbc.invitePlayer(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml));
+            dbc.InvitePlayer(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml));
             dbc.Close();
 
             return xb.InviteComplete();
@@ -104,7 +104,7 @@ namespace Engine {
 
         public string LeaveGame(string xml) {
             DBController dbc = new DBController();
-            dbc.leaveGame(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml));
+            dbc.LeaveGame(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml));
             dbc.Close();
 
             return xb.LeaveGameComplete();
@@ -112,7 +112,7 @@ namespace Engine {
 
         public string UpdatePlayerLocation(string xml) {
             DBController dbc = new DBController();
-            dbc.updatePlayerLocation(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml), xh.GetGeoCoordinateFromXML(xml));
+            dbc.UpdatePlayerLocation(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml), xh.GetGeoCoordinateFromXML(xml));
             List<Player> playersInGame = dbc.GetPlayers(xh.GetGameIdFromXML(xml));
             dbc.Close();
 
@@ -229,7 +229,7 @@ namespace Engine {
             }
 
             DBController dbc = new DBController();
-            dbc.addLocations(locationsToStore);
+            dbc.AddLocations(locationsToStore);
             dbc.Close();
         }
 

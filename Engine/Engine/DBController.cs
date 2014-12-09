@@ -16,7 +16,7 @@ namespace Engine
 		private NpgsqlConnection conn;
 
 		private static string dbHost = "localhost";
-		private static string dbName = "CornfieldDB";
+		private static string dbName = "cornfielddb";
 		private static string dbUser = "cornfield";
 		private static string dbPass = "cornfield";
 
@@ -34,22 +34,30 @@ namespace Engine
 			conn.Close ();
 		}
 
-		private DataRowCollection getStuff(string sql)
+		private DataRowCollection Query(string sql)
 		{
-			NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
-			ds.Reset();
-			da.Fill(ds);
-			dt = ds.Tables[0];
+			try 
+			{
+				NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
+				ds.Reset();
+				da.Fill(ds);
+				dt = ds.Tables[0];
 
-			return dt.Rows;
+				return dt.Rows;
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine (e.ToString());
+				return null;
+			}
 		}
 
 		public List<Game> GetActiveGames()
 		{
-			string sql = "SELECT * FROM game WHERE game.visibility > 0";
+			string sql = "SELECT * FROM game WHERE game.visibility > 0;";
 
 			List<Game> res = new List<Game>();
-			foreach (DataRow row in getStuff(sql))
+			foreach (DataRow row in Query(sql))
 			{
 				res.Add (new Game (row));
 			}
@@ -62,11 +70,18 @@ namespace Engine
                            WHERE game.id = player.game_id AND player.owner = {0};", accountID);
 
 			List<Game> res = new List<Game>();
-			foreach (DataRow row in getStuff(sql))
+			foreach (DataRow row in Query(sql))
 			{
 				res.Add (new Game (row));
 			}
 			return res;
+		}
+		public Game GetGame(int gameID)
+		{
+			string sql = String.Format (@"SELECT * FROM game
+                           WHERE game.id = {0};", gameID);
+
+			return new Game (Query (sql) [0]);
 		}
 
 		public List<Player> GetPlayers(int gameID)
@@ -75,23 +90,40 @@ namespace Engine
                            WHERE player.game_id = {0}", gameID);
 
 			List<Player> res = new List<Player>();
-			foreach (DataRow row in getStuff(sql))
+			foreach (DataRow row in Query(sql))
 			{
 				res.Add (new Player (row));
 			}
 			return res;
 		}
 
-		public Account getAccount(string name)
+		public Account GetAccount(string name)
 		{
 			string sql = String.Format (@"SELECT * FROM account 
 				WHERE account.username = '{0}';", name); //TODO SQL INJECTION
 
-			return new Account (getStuff(sql) [0]);
+			DataRowCollection res = Query (sql);
+			if (res.Count == 0)
+				return new Account (res [0]);
+			else
+				return null;
+		}
+
+		public Player GetPlayer(int accountID, int gameID)
+		{
+			string sql = String.Format ("SELECT * FROM player " +
+										"WHERE player.owner = {0} " +
+										"AND player.game_id = {1};",
+			                            accountID, gameID); 
+			DataRowCollection res = Query (sql);
+			if (res.Count == 1)
+				return new Player (res [0]);
+			else
+				return null;
 		}
 
 		//UPDATES
-		public bool addLocations(List<Location> lst)
+		public bool AddLocations(List<Location> lst)
 		{
 			List<string> data = new List<string> ();
 			foreach (Location l in lst) 
@@ -108,17 +140,19 @@ namespace Engine
 			return command.ExecuteNonQuery() > 0;
 		}
 
-		public bool invitePlayer(int userID, int gameID)
+		public bool InvitePlayer(int accountID, int gameID)
 		{
+			if (GetPlayer (accountID, gameID) != null)
+				return false;
+			
 			string sql = String.Format ("INSERT INTO player (owner, game_id) "+
-			                            "VALUES ({0},{1})"+
-			                            "WHERE NOT (owner = {0} AND game_id = {1}", userID, gameID);
+			                            "VALUES ({0},{1})", accountID, gameID);
 
 			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
 			return command.ExecuteNonQuery () > 0;  //True if rows where affected
 		}
 
-		public bool leaveGame(int userID, int gameID)
+		public bool LeaveGame(int userID, int gameID)
 		{
 			string sql = String.Format ("DELETE FROM player "
 			             + "WHERE owner={0} AND game_id={1};", 
@@ -128,7 +162,7 @@ namespace Engine
 			return command.ExecuteNonQuery () > 0;  //True if rows where affected
 		}
 
-		public bool updatePlayerLocation (int userID, int gameID, GeoCoordinate loc)
+		public bool UpdatePlayerLocation (int userID, int gameID, GeoCoordinate loc)
 		{
 			string sql = String.Format ("UPDATE player "
 			             + "SET loc_x = {0}, loc_y = {1} "

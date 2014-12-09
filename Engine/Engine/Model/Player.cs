@@ -7,9 +7,9 @@ namespace Engine
 {
 	public class Player
 	{
-        private int _id, _owner, _gameID, _score;
-		private int? _teamID;
-		private double _locX, _locY;
+        private int _id, _owner, _gameID;
+		private int? _teamID, _score;
+		private double? _locX, _locY;
         private List<Item> _inventory;
 		private List<StatusEffect> _statusEffects;
 
@@ -18,10 +18,10 @@ namespace Engine
 			_id = row.Field<int> ("id"); 
 			_owner = row.Field<int> ("owner");
 			_gameID = row.Field<int> ("game_id");
-			_teamID = row.Field<int> ("team_id");
-			_score = row.Field<int> ("score");
-			_locX = row.Field<double> ("loc_x");
-			_locY = row.Field<double> ("loc_y");
+			_teamID = row.Field<int?> ("team_id");
+			_score = row.Field<int?> ("score");
+			_locX = row.Field<double?> ("loc_x");
+			_locY = row.Field<double?> ("loc_y");
 		}
 
 		public Player (int id, int owner, int gameID, int? teamID=null)
@@ -56,13 +56,13 @@ namespace Engine
 			set { _statusEffects = value; }
 		}
 
-		public double locX
+		public double? locX
 		{
 			get { return _locX; }
 			set { _locX = value; }
 		}
 
-		public double locY
+		public double? locY
 		{
 			get { return _locY; }
 			set { _locY = value; }
@@ -73,7 +73,7 @@ namespace Engine
             get { return _gameID; }
         }
 
-		public int score
+		public int? score
 		{
 			get { return _score; }
 		}

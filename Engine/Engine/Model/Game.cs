@@ -10,7 +10,7 @@ namespace Engine
 		private int _id, _hostID, _visibility;
 		private string _alias;
 		private DateTime _created, _start, _end;
-		private double _boundaryX, _boundaryY;
+		private double _boundaryNWX, _boundaryNWY, _boundarySEX, _boundarySEY;
 
 		private List<Team> _teams;
 		private List<Player> _players;
@@ -25,13 +25,15 @@ namespace Engine
 			_created = row.Field<DateTime> ("create_time");
 			_start = row.Field<DateTime> ("start_time");
 			_end = row.Field<DateTime> ("end_time");
-			_boundaryX = row.Field<double> ("boundary_x");
-			_boundaryY = row.Field<double> ("boundary_y");
+			_boundaryNWX = row.Field<double> ("boundary_nw_x");
+			_boundaryNWY = row.Field<double> ("boundary_nw_y");
+			_boundarySEX = row.Field<double> ("boundary_se_x");
+			_boundarySEY = row.Field<double> ("boundary_se_y");
 		}
 
 		public Game (int id, int hostID, int visibility, string alias,
 				 	 DateTime created, DateTime start, DateTime end,
-				 	 double x, double y)
+				 	 double nwx, double nwy, double sex, double sey)
 		{
 			_id = id;
 			_hostID = hostID;
@@ -40,10 +42,11 @@ namespace Engine
 			_created = created;
 			_start = start;
 			_end = end;
-			_boundaryX = x;
-			_boundaryY = y;
+			_boundaryNWX = nwx;
+			_boundaryNWY = nwy;
+			_boundarySEX = sex;
+			_boundarySEY = sey;
 		}
-
 		public int id
 		{
 			get { return _id; }
@@ -67,11 +70,17 @@ namespace Engine
 		public DateTime end {
 			get { return _end; }
 		}
-		public double x {
-			get { return _boundaryX; }
+		public double nwx {
+			get { return _boundaryNWX; }
 		}
-		public double y {
-			get { return _boundaryY; }
+		public double nwy {
+			get { return _boundaryNWY; }
+		}
+		public double sex {
+			get { return _boundarySEX; }
+		}
+		public double sey {
+			get { return _boundarySEY; }
 		}
 		public List<Team> teams {
 			get { return _teams; }
