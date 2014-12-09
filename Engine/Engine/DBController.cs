@@ -110,8 +110,9 @@ namespace Engine
 
 		public bool invitePlayer(int userID, int gameID)
 		{
-			string sql = String.Format ("INSERT INTO player (owner, game_id) "
-			             + "VALUES ({0},{1})", userID, gameID);
+			string sql = String.Format ("INSERT INTO player (owner, game_id) "+
+			                            "VALUES ({0},{1})"+
+			                            "WHERE NOT (owner = {0} AND game_id = {1}", userID, gameID);
 
 			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
 			return command.ExecuteNonQuery () > 0;  //True if rows where affected
