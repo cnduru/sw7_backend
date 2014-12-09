@@ -47,7 +47,6 @@
   <ItemGroup>
     <Compile Include="Admin.cs" />
     <Compile Include="AsynchronousSocketListener.cs" />
-    <Compile Include="Auth.cs" />
     <Compile Include="Dispatcher.cs" />
     <Compile Include="GameEvent.cs" />
     <Compile Include="GlobalTimerThread.cs" />
