@@ -34,7 +34,10 @@ namespace Engine
                 string result = (string)method.Invoke(c, methodParams);
 
                 return result;
-            } 
+            } else if(xml.Contains("<GetMyGames>"))
+            {
+                return Admin.GetMyGames(xml);
+            }
             else if (xml.Contains("<GetPublicGames>")) 
             {
                 return Admin.GetPublicGames(xml);

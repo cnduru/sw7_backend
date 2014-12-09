@@ -49,5 +49,18 @@ namespace Engine {
             return sb.ToString();
         }
 
+        public string MyGames(List<Game> myGames) {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<GetMyGames>");
+            foreach (Game game in myGames) {
+                sb.Append("<Game>");
+                sb.Append("<GameId>" + game.id + "</GameId>");
+                sb.Append("<GameName>" + game.alias + "</GameName>");
+                sb.Append("</Game>");
+            }
+            sb.Append("</GetMyGames>");
+            return sb.ToString();
+        }
+
     }
 }

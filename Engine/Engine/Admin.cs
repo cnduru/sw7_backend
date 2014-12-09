@@ -49,5 +49,16 @@ namespace Engine {
                 return xb.LoginFailed(acc);
             }
         }
+
+        public static string GetMyGames(string xml) {
+            XMLhandler xh = new XMLhandler();
+            XMLbuilder xb = new XMLbuilder();
+
+            DBController dbc = new DBController();
+            List<Game> myGames = dbc.GetGames(xh.GetUserIdFromXML(xml));
+            dbc.Close();
+
+            return xb.MyGames(myGames);
+        }
     }
 }
