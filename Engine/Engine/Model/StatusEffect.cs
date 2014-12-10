@@ -29,7 +29,7 @@ namespace Engine
 			_end = end;
 		}
 
-		public int value { 
+		public int? value { 
 			get { return _value; }
 		}
 		public int id {
