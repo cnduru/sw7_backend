@@ -16,7 +16,7 @@ namespace Engine
 			_id = row.Field<int> ("id");
 			_playerID = row.Field<int> ("player_id");
 			_effect = row.Field<int> ("effect");
-			_value = row.Field<int?> ("value");
+			_value = row.Field<int?> ("effect_value");
 			_end = row.Field<DateTime> ("end_time");
 		}
 
