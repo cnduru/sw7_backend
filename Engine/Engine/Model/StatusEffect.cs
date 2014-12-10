@@ -9,18 +9,18 @@ namespace Engine
 	{
 		private int _id, _playerID, _effect;
 		private int? _value;
-		private DateTime _end;
+		private DateTime? _end;
 
-		StatusEffect (DataRow row)
+		StatusEffect (DataRow? row)
 		{
 			_id = row.Field<int> ("id");
 			_playerID = row.Field<int> ("player_id");
 			_effect = row.Field<int> ("effect");
 			_value = row.Field<int?> ("effect_value");
-			_end = row.Field<DateTime> ("end_time");
+			_end = row.Field<DateTime?> ("end_time");
 		}
 
-		StatusEffect (int id, int playerID, int effect, int? value, DateTime end)
+		StatusEffect (int id, int playerID, int effect, int? value, DateTime? end)
 		{
 			_id = id;
 			_playerID = playerID;
@@ -41,7 +41,7 @@ namespace Engine
 		public int effect {
 			get { return _effect; }
 		}
-		public DateTime endTime {
+		public DateTime? endTime {
 			get { return _end; }
 		}
 	}
