@@ -173,7 +173,7 @@ namespace Engine
 			return command.ExecuteNonQuery () > 0;  //True if rows where affected
 		}
 
-		public bool NewGame(Game g)
+		public int NewGame(Game g)
 		{
 			string sql = String.Format("INSERT INTO game (host_id, alias, create_time, start_time, end_time, visibility, " +
 														 "boundary_nw_x, boundary_nw_y, boundary_se_x, boundary_se_y) " +
@@ -181,7 +181,11 @@ namespace Engine
 			                           g.hostID, g.alias, g.created, g.start, g.end, g.visibility, g.nwx, g.nwy, g.sex, g.sey);
 
 			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
-			return command.ExecuteNonQuery () > 0;
+
+			if (command.ExecuteNonQuery () == 0)
+				return -1;
+			else
+				return command.LastInsertedOID;
 		}
 	}
 }
