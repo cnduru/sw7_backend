@@ -118,6 +118,7 @@ CREATE TABLE status_effect
   id serial PRIMARY KEY, 
   player_id int NOT NULL REFERENCES player(id),
   effect int NOT NULL,
+  effect_value int, 
   end_time timestamp
 )
 WITH (
