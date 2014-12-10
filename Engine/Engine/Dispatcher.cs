@@ -18,8 +18,10 @@ namespace Engine
 
             if (xml.Contains("<Login>"))
             {
-                // todo: this string should be sent back to the android client
                 return Admin.VerifyAccount(xml);
+            }
+            else if (xml.Contains("<CreateGame>")) {
+                return Admin.CreateGame(xml);
             }
             else if(xml.Contains("<GameId>"))
             {

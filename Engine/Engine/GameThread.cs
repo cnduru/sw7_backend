@@ -30,20 +30,21 @@ namespace Engine {
         }
 
         public string InitializeGame(string xml) {
-            GeoCoordinate southEastBoundary = new GeoCoordinate();
             GeoCoordinate northWestBoundary = new GeoCoordinate();
+            GeoCoordinate southEastBoundary = new GeoCoordinate();
 
             string gameName = xh.GetNameFromXML(xml);
-            string privacy = xh.GetPrivacyFromXML(xml);
+            int privacy = xh.GetPrivacyFromXML(xml);
             int numberOfTeams = xh.GetNumberOfTeamsFromXML(xml);
             string gameStart = xh.GetGameStartFromXML(xml);
             string gameEnd = xh.GetGameEndFromXML(xml);
             int hostId = xh.GetHostIdFromXML(xml);
-            southEastBoundary = xh.GetSouthEastBoundaryFromXML(xml);
             northWestBoundary = xh.GetNorthWestBoundaryFromXML(xml);
+            southEastBoundary = xh.GetSouthEastBoundaryFromXML(xml);
 
 
 
+            /*
             //This is debug stuff
             // 57.049062, 9.897923 Aalborg Vestby
             // 57.022629, 9.955601 Sohngårsholm Parken
@@ -52,10 +53,12 @@ namespace Engine {
             southEastBoundary.Longitude = 9.955601;
             northWestBoundary.Latitude = 57.049062;
             northWestBoundary.Longitude = 9.897923;
+            */
 
             //Standard numbers. Used if not user-supplied
             int standardObjectInputCount = 20;
             int standardCollisionRadiusInMeters = 5;
+            ////////Fix supplied or not supplied settings////////
             
             //Initialize Items and store them in the database
             List<GeoCoordinate> objectLocations = PlaceObjectsOnRectangularBoard(standardObjectInputCount, southEastBoundary, northWestBoundary, standardCollisionRadiusInMeters);
@@ -126,18 +129,15 @@ namespace Engine {
             return xb.GameUpdate(activePlayersInGame, xh.GetGameIdFromXML(xml));
         }
 
-                /*
-        public string LobbyInfo(string xml) {
+       public string LobbyInfo(string xml) {
             DBController dbc = new DBController();
-            //fix kristian
-            Game game;
+            Game game = dbc.GetGame(xh.GetGameIdFromXML(xml));
             dbc.Close();
 
             return xb.LobbyInfo(game);
         }
-        */
 
-        private List<GeoCoordinate> PlaceObjectsOnRectangularBoard(int inputCount, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, int collisionRadiusInMeters) {
+       private List<GeoCoordinate> PlaceObjectsOnRectangularBoard(int inputCount, GeoCoordinate northWestBoundaryCoord, GeoCoordinate southEastBoundryCoord, int collisionRadiusInMeters) {
             List<GeoCoordinate> objectLocations = new List<GeoCoordinate>();
             double startWidth = Math.Min(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
             double startHeight = Math.Min(southEastBoundryCoord.Longitude, northWestBoundaryCoord.Longitude);
@@ -180,7 +180,7 @@ namespace Engine {
 
 
 
-        private void GetValidGeoCoord(List<GeoCoordinate> objectLocations, GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, double widthMin, double widthMax, double heightMin, double heightMax, int collisionRadiusInMeters) {
+       private void GetValidGeoCoord(List<GeoCoordinate> objectLocations, GeoCoordinate northWestBoundaryCoord, GeoCoordinate southEastBoundryCoord, double widthMin, double widthMax, double heightMin, double heightMax, int collisionRadiusInMeters) {
             GeoCoordinate rndGeoCoord = new GeoCoordinate();
             do {
                 rndGeoCoord = GetRandomGeoCoordOnBoard(widthMin, widthMax, heightMin, heightMax);
@@ -206,7 +206,7 @@ namespace Engine {
         }
 
         // check for collision with border on board
-        private bool BorderCollisionDetection(GeoCoordinate southEastBoundryCoord, GeoCoordinate northWestBoundaryCoord, GeoCoordinate rndGeoCoord, int collisionRadiusInMeters) {
+        private bool BorderCollisionDetection(GeoCoordinate northWestBoundaryCoord, GeoCoordinate southEastBoundryCoord, GeoCoordinate rndGeoCoord, int collisionRadiusInMeters) {
 
             double rightBorder = Math.Max(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
             double leftBorder = Math.Min(southEastBoundryCoord.Latitude, northWestBoundaryCoord.Latitude);
@@ -249,6 +249,35 @@ namespace Engine {
             DBController dbc = new DBController();
             dbc.AddLocations(locationsToStore);
             dbc.Close();
+        }
+
+        public string ShootAction(string xml) {
+            int gameId = xh.GetGameIdFromXML(xml);
+            int gunmanAccountId = xh.GetUserIdFromXML(xml);
+            int victimAccountId = xh.GetVictimFromXML(xml);
+            int weaponId = xh.GetItemIdFromXML(xml);
+
+            DBController dbc = new DBController();
+            Player gunman = dbc.GetPlayer(gunmanAccountId, gameId);
+            Player victim = dbc.GetPlayer(victimAccountId, gameId);
+            Weapon weapon = new Weapon(weaponId);
+
+            GeoCoordinate gunmanPosition = new GeoCoordinate(Convert.ToInt32(gunman.locX), Convert.ToInt32(gunman.locY));
+            GeoCoordinate victimPosition = new GeoCoordinate(Convert.ToInt32(victim.locX), Convert.ToInt32(victim.locY));
+
+            DateTime da = new DateTime();
+            if (gunmanPosition.GetDistanceTo(victimPosition) <= weapon.GetRange()) {
+                //Its a hit
+                dbc.AddStatusEffect(new StatusEffect(0, gunman.userName, 1, weapon.GetRange(), da));
+
+            } else {
+                //Out of range
+                return xb.ShootActionOutOfRange();    
+            }
+
+            dbc.Close();
+
+            return "ramt";
         }
 
     }

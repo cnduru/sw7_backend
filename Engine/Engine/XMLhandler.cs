@@ -92,10 +92,10 @@ namespace Engine
             return Convert.ToInt32(x.SelectNodes("//UserId/text()")[0].Value);
         }
 
-        public string GetPrivacyFromXML(string xml) {
+        public int GetPrivacyFromXML(string xml) {
             XmlDocument x = new XmlDocument();
             x.LoadXml(xml);
-            return x.SelectNodes("//Privacy/text()")[0].Value;
+            return Convert.ToInt32(x.SelectNodes("//Privacy/text()")[0].Value);
         }
 
         public int GetNumberOfTeamsFromXML(string xml) {
@@ -150,6 +150,18 @@ namespace Engine
             double lat = Convert.ToDouble(x.SelectNodes("//Latitude/text()")[0].Value);
             double lng = Convert.ToDouble(x.SelectNodes("//Longitude/text()")[0].Value);
             return new GeoCoordinate(lat, lng);
+        }
+
+        public int GetItemIdFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return Convert.ToInt32(x.SelectNodes("//ItemId/text()")[0].Value);
+        }
+
+        public int GetVictimFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return Convert.ToInt32(x.SelectNodes("//Victim/text()")[0].Value);
         }
     }
 

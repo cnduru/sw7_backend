@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Device.Location;
 
 namespace Engine {
     class XMLbuilder {
@@ -10,8 +11,10 @@ namespace Engine {
             StringBuilder sb = new StringBuilder();
             sb.Append("<GetPublicGames>");
             foreach (Game game in publicGames) {
-                string gameId = "<Game>" + "<GameId>" + game.id + "</GameId>" + "<GameName>" + game.alias + "</GameName>" + "</Game>";
-                sb.Append(gameId);
+                sb.Append("<Game>");
+                sb.Append("<GameId>" + game.id + "</GameId>");
+                sb.Append("<GameName>" + game.alias + "</GameName>");
+                sb.Append("</Game>");
             }
             sb.Append("</GetPublicGames>");
 
@@ -43,6 +46,7 @@ namespace Engine {
             sb.Append("<JoinGame>");
             sb.Append("<Message>" + "TRUE " + "</Message>");
             sb.Append("</JoinGame>");
+
             return sb.ToString();
         }
 
@@ -51,6 +55,7 @@ namespace Engine {
             sb.Append("<LeaveGame>");
             sb.Append("<Message>" + "TRUE " + "</Message>");
             sb.Append("</LeaveGame>");
+
             return sb.ToString();
         }
 
@@ -66,6 +71,7 @@ namespace Engine {
                 sb.Append("</Player>");
             }
             sb.Append("</GameUpdate>");
+
             return sb.ToString();
         }
 
@@ -79,6 +85,7 @@ namespace Engine {
                 sb.Append("</Game>");
             }
             sb.Append("</GetMyGames>");
+
             return sb.ToString();
         }
 
@@ -88,17 +95,55 @@ namespace Engine {
             sb.Append("<Privacy>" + game.visibility + "</Privacy>");
             sb.Append("<NumberOfTeams>" + game.teams + "</NumberOfTeams>");
             sb.Append("<GameEnd>" + game.end + "</GameEnd>");
-            sb.Append("<SouthEastboundary>");
-            sb.Append("<Latitude>" + "FIX KRISTIAN" + "</Latitude>");
-            sb.Append("<Longitude>" + "FIX KRISTIAN" + "</Longitude>");
-            sb.Append("</SouthEastboundary>");
             sb.Append("<NorthWestBoundary>");
-            sb.Append("<Latitude>" + "FIX KRISTIAN" + "</Latitude>");
-            sb.Append("<Longitude>" + "FIX KRISTIAN" + "</Longitude>");
+            sb.Append("<Latitude>" + game.nwx + "</Latitude>");
+            sb.Append("<Longitude>" + game.nwy + "</Longitude>");
             sb.Append("</NorthWestBoundary>");
+            sb.Append("<SouthEastboundary>");
+            sb.Append("<Latitude>" + game.sex + "</Latitude>");
+            sb.Append("<Longitude>" + game.sey + "</Longitude>");
+            sb.Append("</SouthEastboundary>");
             sb.Append("</LobbyInfo>");
 
             return sb.ToString();
         }
+
+        public string CreateGameSuccesful(int gameId) {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<CreateGame>");
+            sb.Append("<Message>" + "TRUE" + "</Message>");
+            sb.Append("<GameId>" + gameId + "</GameId>");
+            sb.Append("</CreateGame>");
+
+            return sb.ToString();
+        }
+
+        public string CreateGameFailed() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<CreateGame>");
+            sb.Append("<Message>" + "FALSE" + "</Message>");
+            sb.Append("</CreateGame>");
+
+            return sb.ToString();
+        }
+
+        public string ShootActionSuccesful() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<ShootAction>");
+            sb.Append("<Message>" + "TRUE" + "</Message>");
+            sb.Append("</ShootAction>");
+
+            return sb.ToString();
+        }
+
+        public string ShootActionOutOfRange() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<ShootAction>");
+            sb.Append("<Message>" + "FALSE" + "</Message>");
+            sb.Append("</ShootAction>");
+            
+            return sb.ToString();
+        }
+
     }
 }

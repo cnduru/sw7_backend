@@ -11,7 +11,7 @@ namespace Engine
 		private int? _value;
 		private DateTime? _end;
 
-		StatusEffect (DataRow? row)
+		StatusEffect (DataRow row)
 		{
 			_id = row.Field<int> ("id");
 			_playerID = row.Field<int> ("player_id");
@@ -20,7 +20,7 @@ namespace Engine
 			_end = row.Field<DateTime?> ("end_time");
 		}
 
-		StatusEffect (int id, int playerID, int effect, int? value, DateTime? end)
+		public StatusEffect (int id, int playerID, int effect, int? value, DateTime? end)
 		{
 			_id = id;
 			_playerID = playerID;
