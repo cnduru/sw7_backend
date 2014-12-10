@@ -185,7 +185,7 @@ namespace Engine
 			if (command.ExecuteNonQuery () == 0)
 				return -1;
 			else
-				return command.LastInsertedOID;
+				return Convert.ToInt32(command.LastInsertedOID);
 		}
 	}
 }
