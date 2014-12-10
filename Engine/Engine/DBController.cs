@@ -187,6 +187,24 @@ namespace Engine
 			else
 				return Convert.ToInt32(command.LastInsertedOID);
 		}
+		public int AddStatusEffect(StatusEffect se)
+		{
+			string sql = "INSERT INTO status_effect " +
+				"(player_id, effect, effect_value, end_time) " +
+				"VALUES (@player_id, @effect, @value, @end_time)";
+
+			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
+			command.Parameters.Add("@player_id", se.playerID );
+			command.Parameters.Add("@effect", se.effect);
+			command.Parameters.Add("@value", se.value);
+			command.Parameters.Add("@end_time", se.endTime);
+
+			if (command.ExecuteNonQuery () == 0)
+				return -1;
+			else
+				return Convert.ToInt32(command.LastInsertedOID);
+		}
+
 	}
 }
 
