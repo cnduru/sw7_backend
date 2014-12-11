@@ -7,6 +7,7 @@ from matplotlib import pyplot
 def run(duration):
     res = []
     end = time.time() + duration
+    errors = 0
     p = Progress(duration)
     while time.time() < end:
         try:
@@ -18,21 +19,32 @@ def run(duration):
             res.append(time.time() - t)
             time.sleep(1)
             p.percent(int(duration - (end - time.time())))
+            if not data:
+                print("error")
+                break
         except ConnectionResetError:
-            continue
-        if not data:
-            print("error")
-            break
-    return res
+            errors += 1
 
+    return res, errors
 
-data = run(60*10)
-pyplot.plot(data, label="Without Load")
-input("Press any key to continue...")
-data = run(60*10)
-pyplot.plot(data, label="With Load")
-pyplot.ylabel('Latency ms')
-pyplot.savefig('latency_load.pdf')
+with open("data.txt", "w+") as f:
+    data, er = run(60)
+    print("Errors:", er)
+    f.write("errors: " + str(er) + " Res: " + ','.join(map(str, data)) + "\n")
+    pyplot.plot(data, label="Without Load")
+
+    input("Press enter to continue...")
+
+    data, er = run(60)
+    print("Errors:", er)
+    f.write("errors: " + str(er) + " Res: " + ','.join(map(str, data)) + "\n")
+    pyplot.plot(data, label="With Load", c="red")
+
+    pyplot.legend(loc='best')
+    # pyplot.yscale('log')
+    pyplot.ylabel('Latency/ms')
+    pyplot.xlabel("Time/seconds")
+    pyplot.savefig('latency_load.pdf', )
 
 
 #s.connect(("192.168.43.49", 11000))
