@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Device.Location;
+// using System.Device.Location;
 using System.Xml.Serialization;
 using System.Xml;
 
@@ -270,6 +270,7 @@ namespace Engine {
                 //Its a hit
 
                 //KRISTIAN DET ER HER DET GÅR FOR SIG
+				//Det virker fint! hvis det bare bliver kørt!
                 dbc.AddStatusEffect(new StatusEffect(0, victim.userName, 1, weapon.GetDamage(), da));
                 dbc.Close();
                 return xb.ShootActionSuccesful();
@@ -278,10 +279,7 @@ namespace Engine {
                 dbc.Close();
                 return xb.ShootActionOutOfRange();    
             }
-
-            
         }
-
     }
     public delegate string AsyncAskDog(out int threadId, string hej);
 }

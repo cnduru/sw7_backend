@@ -4,7 +4,7 @@ using Npgsql;
 using System.Data;
 using Microsoft.Win32.SafeHandles;
 using System.Configuration;
-using System.Device.Location;
+// using System.Device.Location;
 
 
 namespace Engine
@@ -16,8 +16,8 @@ namespace Engine
 		private NpgsqlConnection conn;
 
 		private static string dbHost = "localhost";
-		//private static string dbName = "cornfielddb";
-		private static string dbName = "CornfieldDB";
+		private static string dbName = "cornfielddb";
+		//private static string dbName = "CornfieldDB";
 		private static string dbUser = "cornfield";
 		private static string dbPass = "cornfield";
 
@@ -200,8 +200,7 @@ namespace Engine
 				{
 					var r = Query("SELECT max(id) FROM game;")[0][0];
 					return Convert.ToInt32(r);
-				}
-				    
+				} 
 			}
 			catch (NpgsqlException)
 			{
@@ -220,63 +219,20 @@ namespace Engine
 			command.Parameters.AddWithValue("@value", se.value);
 			command.Parameters.AddWithValue("@end_time", se.endTime);
 
-			if (command.ExecuteNonQuery () == 0)
-				return -1;
-			else
-				return 0;
-		}
-
-	}
-}
-
-/*
-namespace PostgreSQLTEst
-{
-	public partial class Form1 : Form
-	{
-		private DataSet ds = new DataSet();
-		private DataTable dt = new DataTable();
-		public Form1()
-		{    
-			InitializeComponent();    
-		}
-		private void llOpenConnAndSelect_LinkClicked(object sender, 
-			LinkLabelLinkClickedEventArgs e)
-		{
 			try
 			{
-				// PostgeSQL-style connection string
-				string connstring = String.Format("Server={0};Port={1};" + 
-					"User Id={2};Password={3};Database={4};",
-					tbHost.Text, tbPort.Text, tbUser.Text, 
-					tbPass.Text, tbDataBaseName.Text );
-				// Making connection with Npgsql provider
-				NpgsqlConnection conn = new NpgsqlConnection(connstring);
-				conn.Open();
-				// quite complex sql statement
-				string sql = "SELECT * FROM simple_table";
-				// data adapter making request from our connection
-				NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
-				// i always reset DataSet before i do
-				// something with it.... i don't know why :-)
-				ds.Reset();
-				// filling DataSet with result from NpgsqlDataAdapter
-				da.Fill(ds);
-				// since it C# DataSet can handle multiple tables, we will select first
-				dt = ds.Tables[0];
-				// connect grid to DataTable
-				dataGridView1.DataSource = dt;
-				// since we only showing the result we don't need connection anymore
-				conn.Close();
+				if (command.ExecuteNonQuery () == 0)
+					return -1;
+				else
+				{
+					var r = Query("SELECT max(id) FROM status_effect;")[0][0];
+					return Convert.ToInt32(r);
+				} 
 			}
-			catch (Exception msg)
+			catch (NpgsqlException)
 			{
-				// something went wrong, and you wanna know why
-				MessageBox.Show(msg.ToString());
-				throw;
+				return -1;
 			}
 		}
 	}
 }
-
-*/
