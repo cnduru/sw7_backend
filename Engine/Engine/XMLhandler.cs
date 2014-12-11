@@ -92,10 +92,10 @@ namespace Engine
             return Convert.ToInt32(x.SelectNodes("//UserId/text()")[0].Value);
         }
 
-        public string GetPrivacyFromXML(string xml) {
+        public int GetPrivacyFromXML(string xml) {
             XmlDocument x = new XmlDocument();
             x.LoadXml(xml);
-            return x.SelectNodes("//Privacy/text()")[0].Value;
+            return Convert.ToInt32(x.SelectNodes("//Privacy/text()")[0].Value);
         }
 
         public int GetNumberOfTeamsFromXML(string xml) {
@@ -132,18 +132,6 @@ namespace Engine
             return Convert.ToInt32(x.SelectNodes("//HostId/text()")[0].Value);
         }
 
-        public string GetGameStartFromXML(string xml) {
-            XmlDocument x = new XmlDocument();
-            x.LoadXml(xml);
-            return x.SelectNodes("//GameStart/text()")[0].Value;
-        }
-
-        public string GetGameEndFromXML(string xml) {
-            XmlDocument x = new XmlDocument();
-            x.LoadXml(xml);
-            return x.SelectNodes("//GameEnd/text()")[0].Value;
-        }
-
         public GeoCoordinate GetGeoCoordinateFromXML(string xml) {
             XmlDocument x = new XmlDocument();
             x.LoadXml(xml);
@@ -151,6 +139,41 @@ namespace Engine
             double lng = Convert.ToDouble(x.SelectNodes("//Longitude/text()")[0].Value);
             return new GeoCoordinate(lat, lng);
         }
+
+        public int GetItemIdFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return Convert.ToInt32(x.SelectNodes("//ItemId/text()")[0].Value);
+        }
+
+        public int GetVictimFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            return Convert.ToInt32(x.SelectNodes("//Victim/text()")[0].Value);
+        }
+
+        public DateTime GetGameStartFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            int year = Convert.ToInt32(x.SelectNodes("//GameStart/Year/text()")[0].Value);
+            int month = Convert.ToInt32(x.SelectNodes("//GameStart/Month/text()")[0].Value);
+            int day = Convert.ToInt32(x.SelectNodes("//GameStart/Day/text()")[0].Value);
+            int hour = Convert.ToInt32(x.SelectNodes("//GameStart/Hour/text()")[0].Value);
+            int minute = Convert.ToInt32(x.SelectNodes("//GameStart/Minute/text()")[0].Value);
+            return new DateTime(year, month, day, hour, minute, 0);
+        }
+
+        public DateTime GetGameEndFromXML(string xml) {
+            XmlDocument x = new XmlDocument();
+            x.LoadXml(xml);
+            int year = Convert.ToInt32(x.SelectNodes("//GameEnd/Year/text()")[0].Value);
+            int month = Convert.ToInt32(x.SelectNodes("//GameEnd/Month/text()")[0].Value);
+            int day = Convert.ToInt32(x.SelectNodes("//GameEnd/Day/text()")[0].Value);
+            int hour = Convert.ToInt32(x.SelectNodes("//GameEnd/Hour/text()")[0].Value);
+            int minute = Convert.ToInt32(x.SelectNodes("//GameEnd/Minute/text()")[0].Value);
+            return new DateTime(year, month, day, hour, minute, 0);
+        }
+
     }
 
   
