@@ -36,8 +36,8 @@ namespace Engine {
             string gameName = xh.GetNameFromXML(xml);
             int privacy = xh.GetPrivacyFromXML(xml);
             int numberOfTeams = xh.GetNumberOfTeamsFromXML(xml);
-            string gameStart = xh.GetGameStartFromXML(xml);
-            string gameEnd = xh.GetGameEndFromXML(xml);
+            DateTime gameStart = xh.GetGameStartFromXML(xml);
+            DateTime gameEnd = xh.GetGameEndFromXML(xml);
             int hostId = xh.GetHostIdFromXML(xml);
             northWestBoundary = xh.GetNorthWestBoundaryFromXML(xml);
             southEastBoundary = xh.GetSouthEastBoundaryFromXML(xml);
@@ -268,16 +268,18 @@ namespace Engine {
             DateTime da = new DateTime();
             if (gunmanPosition.GetDistanceTo(victimPosition) <= weapon.GetRange()) {
                 //Its a hit
-                dbc.AddStatusEffect(new StatusEffect(0, gunman.userName, 1, weapon.GetRange(), da));
 
+                //KRISTIAN DET ER HER DET GÅR FOR SIG
+                dbc.AddStatusEffect(new StatusEffect(0, victim.userName, 1, weapon.GetDamage(), da));
+                dbc.Close();
+                return xb.ShootActionSuccesful();
             } else {
                 //Out of range
+                dbc.Close();
                 return xb.ShootActionOutOfRange();    
             }
 
-            dbc.Close();
-
-            return "ramt";
+            
         }
 
     }

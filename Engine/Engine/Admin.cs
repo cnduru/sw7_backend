@@ -24,12 +24,13 @@ namespace Engine {
             int hostId = xh.GetHostIdFromXML(xml);
             int privacy = xh.GetPrivacyFromXML(xml);
             string gameName = xh.GetNameFromXML(xml);
+
             //DateTime timeStampNow = new DateTime(); FIX LATER
             //Datetime start
             //Datetime end
-            DateTime timeOfCreation = new DateTime();
-            DateTime startTime = new DateTime();
-            DateTime endTime = new DateTime();
+            DateTime timeOfCreation = DateTime.Now;
+            DateTime startTime = xh.GetGameStartFromXML(xml);
+            DateTime endTime = xh.GetGameEndFromXML(xml);
 
             GeoCoordinate northWestBoundary = xh.GetNorthWestBoundaryFromXML(xml);
             GeoCoordinate southEastBoundary = xh.GetSouthEastBoundaryFromXML(xml);
@@ -41,11 +42,12 @@ namespace Engine {
 
             // HANDLE SETTINGS
 
-            
+            // KRISTAN, DET ER HER DET GÅR FOR SIG.
             Game newGame = new Game(0, hostId, privacy, gameName, timeOfCreation, startTime, endTime, nwx, nwy, sex, sey);
             DBController dbc = new DBController();
             int gameId = dbc.NewGame(newGame);
             dbc.Close();
+
             if (gameId > 0) {
                 GameThread newGameThread = new GameThread(gameId);
                 AsynchronousSocketListener.gameThreadPool.StartThread(gameId, newGameThread);
@@ -56,8 +58,6 @@ namespace Engine {
             } else {
                 return xb.CreateGameFailed();
             }
-
-
         }
 
         public static string GetPublicGames(string xml) {

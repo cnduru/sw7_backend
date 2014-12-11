@@ -94,7 +94,13 @@ namespace Engine {
             sb.Append("<LobbyInfo>");
             sb.Append("<Privacy>" + game.visibility + "</Privacy>");
             sb.Append("<NumberOfTeams>" + game.teams + "</NumberOfTeams>");
-            sb.Append("<GameEnd>" + game.end + "</GameEnd>");
+            sb.Append("<GameEnd>");
+            sb.Append("<Year>" + game.end.Year.ToString() + "</Year>");
+            sb.Append("<Month>" + game.end.Month.ToString() + "</Month>");
+            sb.Append("<Day>" + game.end.Day.ToString() + "</Day>");
+            sb.Append("<Hour>" + game.end.Hour.ToString() + "</Hour>");
+            sb.Append("<Minute>" + game.end.Minute.ToString() + "</Minute>");
+            sb.Append("</GameEnd>");
             sb.Append("<NorthWestBoundary>");
             sb.Append("<Latitude>" + game.nwx + "</Latitude>");
             sb.Append("<Longitude>" + game.nwy + "</Longitude>");
