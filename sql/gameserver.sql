@@ -15,7 +15,7 @@ CREATE TABLE account
   password varchar(10) NOT NULL
 )
 WITH (
-  OIDS=FALSE
+  OIDS=TRUE
 );
 ALTER TABLE account
   OWNER TO cornfield;
@@ -36,7 +36,7 @@ CREATE TABLE game
   boundary_se_y float NOT NULL
 )
 WITH (
-  OIDS=FALSE
+  OIDS=TRUE
 );
 ALTER TABLE game
   OWNER TO cornfield;
@@ -49,7 +49,7 @@ CREATE TABLE item
   effect int NOT NULL
 )
 WITH (
-  OIDS=FALSE
+  OIDS=TRUE
 );
 ALTER TABLE item
   OWNER TO cornfield;
@@ -61,7 +61,7 @@ CREATE TABLE team
   score int NOT NULL
 )
 WITH (
-  OIDS=FALSE
+  OIDS=TRUE
 );
 ALTER TABLE team
   OWNER TO cornfield;
@@ -78,7 +78,7 @@ CREATE TABLE player
   loc_y float
 )
 WITH (
-  OIDS=FALSE
+  OIDS=TRUE
 );
 ALTER TABLE player
   OWNER TO cornfield;
@@ -92,7 +92,7 @@ CREATE TABLE inventory
   count int NOT NULL
 )
 WITH (
-  OIDS=FALSE
+  OIDS=TRUE
 );
 ALTER TABLE inventory
   OWNER TO cornfield;
@@ -108,7 +108,7 @@ CREATE TABLE location
   team_id int REFERENCES team(id)
 )
 WITH (
-  OIDS=FALSE
+  OIDS=TRUE
 );
 ALTER TABLE location
   OWNER TO cornfield;
@@ -122,7 +122,7 @@ CREATE TABLE status_effect
   end_time timestamp
 )
 WITH (
-  OIDS=FALSE
+  OIDS=TRUE
 );
 ALTER TABLE status_effect
   OWNER TO cornfield;

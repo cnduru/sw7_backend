@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Device.Location;
+// using System.Device.Location;
 using System.Xml.Serialization;
 using System.Xml;
 
@@ -105,24 +105,22 @@ namespace Engine
         }
 
         public GeoCoordinate GetSouthEastBoundaryFromXML(string xml) {
-            // Fix this later
+			XmlDocument x = new XmlDocument();
+			x.LoadXml(xml);
+			double seb_lat = Convert.ToDouble(x.SelectNodes("//SouthEastBoundary/Latitude/text()")[0].Value);
+			double seb_lng = Convert.ToDouble(x.SelectNodes("//SouthEastBoundary/Longitude/text()")[0].Value);
 
-            XmlDocument x = new XmlDocument();
-            x.LoadXml(xml);
-            string seb = x.SelectNodes("//SouthEastBoundary/text()")[0].Value;
-
-            GeoCoordinate sebGeo = new GeoCoordinate(1.2, 1.2);
-            return sebGeo;
+			GeoCoordinate sebGeo = new GeoCoordinate(seb_lat, seb_lng);
+			return sebGeo;
         }
 
         public GeoCoordinate GetNorthWestBoundaryFromXML(string xml) {
-            // Fix this later
-
             XmlDocument x = new XmlDocument();
             x.LoadXml(xml);
-            string nwb = x.SelectNodes("//NorthWestBoundary/text()")[0].Value;
+			double nwb_lat = Convert.ToDouble(x.SelectNodes("//NorthWestBoundary/Latitude/text()")[0].Value);
+			double nwb_lng = Convert.ToDouble(x.SelectNodes("//NorthWestBoundary/Longitude/text()")[0].Value);
 
-            GeoCoordinate nwbGeo = new GeoCoordinate(1.2, 1.2);
+			GeoCoordinate nwbGeo = new GeoCoordinate(nwb_lat, nwb_lng);
             return nwbGeo;
         }
 

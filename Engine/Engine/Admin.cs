@@ -42,8 +42,8 @@ namespace Engine {
 
             // HANDLE SETTINGS
 
-            // KRISTAN, DET ER HER DET GÅR FOR SIG.
-            Game newGame = new Game(0, hostId, privacy, gameName, timeOfCreation, startTime, endTime, nwx, nwy, sex, sey);
+            Game newGame = new Game(0, hostId, privacy, gameName, timeOfCreation,
+			                        startTime, endTime, nwx, nwy, sex, sey);
             DBController dbc = new DBController();
             int gameId = dbc.NewGame(newGame);
             dbc.Close();
