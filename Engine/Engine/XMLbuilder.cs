@@ -66,6 +66,7 @@ namespace Engine {
             foreach (Player player in playersInGame) {
                 sb.Append("<Player>");
                 sb.Append("<UserId>" + player.id + "</UserId>");
+				sb.Append("<UserName>" + "Christoffer" + "</UserName>");
                 sb.Append("<Latitude>" + player.locX + "</Latitude>");
                 sb.Append("<Longitude>" + player.locY + "</Longitude>");
                 sb.Append("</Player>");
