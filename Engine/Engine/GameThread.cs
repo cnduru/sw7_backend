@@ -105,6 +105,16 @@ namespace Engine {
             return xb.InviteComplete();
         }
 
+		public string InviteUser(string xml)
+		{
+			DBController dbc = new DBController();
+			int gID = xh.GetGameIdFromXML (xml);
+			Account a = dbc.GetAccount (xh.GetUserNameFromXML (xml));
+			Player p = dbc.GetPlayer (a.id, gID);
+			dbc.InvitePlayer(p.id, gID);
+			dbc.Close();
+		}
+
         public string LeaveGame(string xml) {
             DBController dbc = new DBController();
             dbc.LeaveGame(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml));
