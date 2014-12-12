@@ -72,7 +72,7 @@ namespace Engine {
 			int ok = dbc.UpdateGame (ga);
 			dbc.Close ();
 
-			if (ok > 0)
+			if (ok < 0)
 				return xb.CreateGameFailed ();
 			else
 				return xb.CreateGameSuccesful (gameID);
