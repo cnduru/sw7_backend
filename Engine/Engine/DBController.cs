@@ -4,7 +4,7 @@ using Npgsql;
 using System.Data;
 using Microsoft.Win32.SafeHandles;
 using System.Configuration;
-// using System.Device.Location;
+using System.Device.Location;
 
 
 namespace Engine
@@ -16,8 +16,8 @@ namespace Engine
 		private NpgsqlConnection conn;
 
 		private static string dbHost = "localhost";
-		private static string dbName = "cornfielddb";
-	//	private static string dbName = "CornfieldDB";
+//		private static string dbName = "cornfielddb";
+		private static string dbName = "CornfieldDB";
 		private static string dbUser = "cornfield";
 		private static string dbPass = "cornfield";
 
