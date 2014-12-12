@@ -26,13 +26,13 @@ namespace Engine {
 
 		public void stopGame(int gameId)
 		{
+			Thread k = null;
 			string name = "GameThread" + gameId;
 			foreach (KeyValuePair<Thread, GameThread> threadGamePair in GameThreads) {
 				if (threadGamePair.Key.Name == name)
-					GameThreads.Remove (threadGamePair.Key);
+					k = threadGamePair.Key;
 			}
-			throw new ArgumentOutOfRangeException("No such thread in pool");
-
+			GameThreads.Remove (k);
 		}
 		//Don't do this
 /*        public void KillThread(int gameId) {

@@ -119,7 +119,7 @@ namespace Engine {
             StringBuilder sb = new StringBuilder();
             sb.Append("<LobbyInfo>");
             sb.Append("<Privacy>" + game.visibility + "</Privacy>");
-            sb.Append("<NumberOfTeams>" + game.teams.Count + "</NumberOfTeams>");
+            sb.Append("<NumberOfTeams>" + "9999999" + "</NumberOfTeams>");
 			sb.Append("<HostId>" + game.hostID.ToString () + "</HostId>");
 			sb.Append("<Alias>" + game.alias + "</Alias>");
             sb.Append("<GameEnd>");
