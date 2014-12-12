@@ -77,7 +77,7 @@ namespace Engine {
             foreach (Player player in playersInGame) {
                 sb.Append("<Player>");
                 sb.Append("<UserId>" + player.id + "</UserId>");
-				sb.Append("<UserName>" + "Christoffer" + "</UserName>");
+				sb.Append("<UserName>" + "Morten" + "</UserName>");
                 sb.Append("<Latitude>" + player.locX + "</Latitude>");
                 sb.Append("<Longitude>" + player.locY + "</Longitude>");
                 sb.Append("</Player>");
@@ -86,6 +86,20 @@ namespace Engine {
 
             return sb.ToString();
         }
+
+		public string InvitedPlayers(List<Player> playersInGame) {
+			StringBuilder sb = new StringBuilder();
+			sb.Append("<<GetPlayerInvites>>");
+			foreach (Player player in playersInGame) {
+				sb.Append("<Player>");
+				sb.Append("<UserId>" + player.id + "</UserId>");
+				sb.Append("<UserName>" + "Christoffer" + "</UserName>");
+				sb.Append("</Player>");
+			}
+			sb.Append("</<GetPlayerInvites>>");
+
+			return sb.ToString();
+		}
 
         public string MyGames(List<Game> myGames) {
             StringBuilder sb = new StringBuilder();
@@ -105,7 +119,8 @@ namespace Engine {
             StringBuilder sb = new StringBuilder();
             sb.Append("<LobbyInfo>");
             sb.Append("<Privacy>" + game.visibility + "</Privacy>");
-            sb.Append("<NumberOfTeams>" + game.teams + "</NumberOfTeams>");
+            sb.Append("<NumberOfTeams>" + game.teams.Count + "</NumberOfTeams>");
+			sb.Append("<HostId>" + game.hostID.ToString () + "</HostId>");
             sb.Append("<GameEnd>");
             sb.Append("<Year>" + game.end.Year.ToString() + "</Year>");
             sb.Append("<Month>" + game.end.Month.ToString() + "</Month>");

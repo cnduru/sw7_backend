@@ -92,9 +92,10 @@ namespace Engine {
 
         public string GetPlayerInvites(string xml) {
             DBController dbc = new DBController();
-            
+			int gameId = xh.GetGameIdFromXML (xml);
+			List<Player> ps = dbc.GetPlayers(gameId);
             dbc.Close();
-            return "This is a dummy message from GetPlayerInvites";
+			return xb.InvitedPlayers(ps);
         }
          
         public string JoinGame(string xml) {
@@ -107,16 +108,15 @@ namespace Engine {
 
 		public string InviteUser(string xml) {
 			DBController dbc = new DBController();
-			int gID = xh.GetGameIdFromXML (xml);
-			Account a = dbc.GetAccount (xh.GetUsernameFromXML (xml));
-			Player p = dbc.GetPlayer (a.id, gID);
-			dbc.InvitePlayer(p.id, gID);
+			int gameId = xh.GetGameIdFromXML (xml);
+			Account a = dbc.GetAccount(xh.GetUsernameFromXML(xml));
+			dbc.InvitePlayer(a.id, gameId);
 			dbc.Close();
 
 			return xb.InviteComplete(a.id);
 		}
 
-        public string LeaveGame(string xml) {
+		public string LeaveGame(string xml) {
             DBController dbc = new DBController();
             dbc.LeaveGame(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml));
             dbc.Close();
