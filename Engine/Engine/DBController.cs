@@ -4,7 +4,7 @@ using Npgsql;
 using System.Data;
 using Microsoft.Win32.SafeHandles;
 using System.Configuration;
-using System.Device.Location;
+// using System.Device.Location;
 
 
 namespace Engine
@@ -16,8 +16,8 @@ namespace Engine
 		private NpgsqlConnection conn;
 
 		private static string dbHost = "localhost";
-//		private static string dbName = "cornfielddb";
-		private static string dbName = "CornfieldDB";
+		private static string dbName = "cornfielddb";
+//		private static string dbName = "CornfieldDB";
 		private static string dbUser = "cornfield";
 		private static string dbPass = "cornfield";
 
@@ -122,6 +122,18 @@ namespace Engine
 		{
 			string sql = String.Format (@"SELECT * FROM account 
 				WHERE account.username = '{0}';", name); //TODO SQL INJECTION
+
+			DataRowCollection res = Query (sql);
+			if (res.Count == 1)
+				return new Account (res [0]);
+			else
+				return null;
+		}
+
+		public Account GetAccount(int accID)
+		{
+			string sql = String.Format (@"SELECT * FROM account 
+				WHERE account.id = '{0}';", accID);
 
 			DataRowCollection res = Query (sql);
 			if (res.Count == 1)
