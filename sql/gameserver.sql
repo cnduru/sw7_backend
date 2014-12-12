@@ -75,8 +75,9 @@ CREATE TABLE player
   team_id int REFERENCES team(id),
   score int,
   loc_x float,
-  loc_y float
-)
+  loc_y float,
+  unique(owner, game_id)
+)	
 WITH (
   OIDS=TRUE
 );
