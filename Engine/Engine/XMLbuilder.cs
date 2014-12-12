@@ -72,16 +72,18 @@ namespace Engine {
 
         public string GameUpdate(List<Player> playersInGame, int gameId) {
             StringBuilder sb = new StringBuilder();
+			DBController dbc = new DBController ();
             sb.Append("<GameUpdate>");
             sb.Append("<GameId>" + gameId + "</GameId>");
             foreach (Player player in playersInGame) {
                 sb.Append("<Player>");
                 sb.Append("<UserId>" + player.id + "</UserId>");
-				sb.Append("<UserName>" + "Morten" + "</UserName>");
+				sb.Append("<UserName>" + dbc.GetAccount(player.userName).userName + "</UserName>");
                 sb.Append("<Latitude>" + player.locX + "</Latitude>");
                 sb.Append("<Longitude>" + player.locY + "</Longitude>");
                 sb.Append("</Player>");
             }
+			dbc.Close ();
             sb.Append("</GameUpdate>");
 
             return sb.ToString();
@@ -89,15 +91,16 @@ namespace Engine {
 
 		public string InvitedPlayers(List<Player> playersInGame) {
 			StringBuilder sb = new StringBuilder();
+			DBController dbc = new DBController ();
 			sb.Append("<<GetPlayerInvites>>");
 			foreach (Player player in playersInGame) {
 				sb.Append("<Player>");
 				sb.Append("<UserId>" + player.id + "</UserId>");
-				sb.Append("<UserName>" + "Christoffer" + "</UserName>");
+				sb.Append("<UserName>" + dbc.GetAccount(player.userName).userName + "</UserName>");
 				sb.Append("</Player>");
 			}
 			sb.Append("</<GetPlayerInvites>>");
-
+			dbc.Close ();
 			return sb.ToString();
 		}
 
