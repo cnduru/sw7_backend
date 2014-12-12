@@ -121,6 +121,7 @@ namespace Engine {
             sb.Append("<Privacy>" + game.visibility + "</Privacy>");
             sb.Append("<NumberOfTeams>" + game.teams.Count + "</NumberOfTeams>");
 			sb.Append("<HostId>" + game.hostID.ToString () + "</HostId>");
+			sb.Append("<Alias>" + game.alias.ToString () + "</Alias>");
             sb.Append("<GameEnd>");
             sb.Append("<Year>" + game.end.Year.ToString() + "</Year>");
             sb.Append("<Month>" + game.end.Month.ToString() + "</Month>");
