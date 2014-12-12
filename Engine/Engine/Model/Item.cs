@@ -14,9 +14,9 @@ namespace Engine
 			_effect = row.Field<int> ("effect");
 		}
 
-		public Item (int id, int itemType, int effect)
+		public Item (int itemType, int effect)
 		{
-            _id = id;
+            _id = 0;
             _itemType = itemType;
             _effect = effect;
 		}

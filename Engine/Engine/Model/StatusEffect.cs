@@ -20,9 +20,9 @@ namespace Engine
 			_end = row.Field<DateTime?> ("end_time");
 		}
 
-		public StatusEffect (int id, int playerID, int effect, int? value, DateTime? end)
+		public StatusEffect (int playerID, int effect, int? value, DateTime? end)
 		{
-			_id = id;
+			_id = 0;
 			_playerID = playerID;
 			_effect = effect;
 			_value = value;

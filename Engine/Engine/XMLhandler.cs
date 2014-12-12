@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Device.Location;
+// using System.Device.Location;
 using System.Xml.Serialization;
 using System.Xml;
 

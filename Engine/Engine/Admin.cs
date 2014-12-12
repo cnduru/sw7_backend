@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Device.Location;
+// using System.Device.Location;
 
 namespace Engine {
     static class Admin {
@@ -42,7 +42,7 @@ namespace Engine {
 
             // HANDLE SETTINGS
 
-            Game newGame = new Game(0, hostId, privacy, gameName, timeOfCreation,
+            Game newGame = new Game(hostId, privacy, gameName, timeOfCreation,
 			                        startTime, endTime, nwx, nwy, sex, sey);
             DBController dbc = new DBController();
             int gameId = dbc.NewGame(newGame);
@@ -59,6 +59,25 @@ namespace Engine {
                 return xb.CreateGameFailed();
             }
         }
+
+		public static string CloseGame (string xml)
+		{
+			XMLbuilder xb = new XMLbuilder();
+			XMLhandler xh = new XMLhandler();
+			DBController dbc = new DBController ();
+			int gameID = xh.GetGameIdFromXML (xml);
+			AsynchronousSocketListener.gameThreadPool.stopGame(gameID);
+			Game ga = dbc.GetGame (gameID);
+			ga.visibility = 0;
+			int ok = dbc.UpdateGame (ga);
+			dbc.Close ();
+
+			if (ok > 0)
+				return xb.CreateGameFailed ();
+			else
+				return xb.CreateGameSuccesful (gameID);
+				
+		}
 
         public static string GetPublicGames(string xml) {
             XMLbuilder xb = new XMLbuilder();

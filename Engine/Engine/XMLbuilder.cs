@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Device.Location;
+// using System.Device.Location;
 
 namespace Engine {
     class XMLbuilder {
@@ -41,7 +41,7 @@ namespace Engine {
             return sb.ToString();
         }
 
-        public string InviteComplete() {
+        public string JoinComplete() {
             StringBuilder sb = new StringBuilder();
             sb.Append("<JoinGame>");
             sb.Append("<Message>" + "TRUE " + "</Message>");
@@ -49,6 +49,17 @@ namespace Engine {
 
             return sb.ToString();
         }
+
+		public string InviteComplete (int accId)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.Append("<JoinGame>");
+			sb.Append("<Message>" + "TRUE " + "</Message>");
+			sb.Append("<UserId>" + accId.ToString() + "</UserId>");
+			sb.Append("</JoinGame>");
+
+			return sb.ToString();
+		}
 
         public string LeaveGameComplete() {
             StringBuilder sb = new StringBuilder();

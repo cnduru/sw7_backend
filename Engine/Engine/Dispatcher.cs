@@ -23,6 +23,9 @@ namespace Engine
             else if (xml.Contains("<CreateGame>")) {
                 return Admin.CreateGame(xml);
             }
+			else if (xml.Contains("<CloseGame>"))			{
+				return Admin.CloseGame (xml);
+			}
             else if(xml.Contains("<GameId>"))
             {
                 //Locate variables in information sent from client

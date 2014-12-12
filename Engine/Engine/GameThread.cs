@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Device.Location;
+// using System.Device.Location;
 using System.Xml.Serialization;
 using System.Xml;
 
@@ -102,17 +102,18 @@ namespace Engine {
             dbc.InvitePlayer(xh.GetUserIdFromXML(xml), xh.GetGameIdFromXML(xml));
             dbc.Close();
 
-            return xb.InviteComplete();
+            return xb.JoinComplete();
         }
 
-		public string InviteUser(string xml)
-		{
+		public string InviteUser(string xml) {
 			DBController dbc = new DBController();
 			int gID = xh.GetGameIdFromXML (xml);
-			Account a = dbc.GetAccount (xh.GetUserNameFromXML (xml));
+			Account a = dbc.GetAccount (xh.GetUsernameFromXML (xml));
 			Player p = dbc.GetPlayer (a.id, gID);
 			dbc.InvitePlayer(p.id, gID);
 			dbc.Close();
+
+			return xb.InviteComplete(a.id);
 		}
 
         public string LeaveGame(string xml) {
@@ -253,7 +254,7 @@ namespace Engine {
         private void StoreObjectLocationsInDB(List<GeoCoordinate> objectLocations, int gameId) {
             List<Location> locationsToStore = new List<Location>();
             foreach (GeoCoordinate location in objectLocations) {
-                locationsToStore.Add(new Location(0, gameId, GenerateRandomItems(1,4), 0, location.Latitude, location.Longitude));
+                locationsToStore.Add(new Location(gameId, GenerateRandomItems(1,4), 0, location.Latitude, location.Longitude));
             }
 
             DBController dbc = new DBController();
@@ -281,7 +282,7 @@ namespace Engine {
 
                 //KRISTIAN DET ER HER DET GÅR FOR SIG
 				//Det virker fint! hvis det bare bliver kørt!
-                dbc.AddStatusEffect(new StatusEffect(0, victim.userName, 1, weapon.GetDamage(), da));
+                dbc.AddStatusEffect(new StatusEffect(victim.userName, 1, weapon.GetDamage(), da));
                 dbc.Close();
                 return xb.ShootActionSuccesful();
             } else {

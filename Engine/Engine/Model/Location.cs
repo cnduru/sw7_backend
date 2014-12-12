@@ -19,9 +19,9 @@ namespace Engine
 			_lng = row.Field<double> ("loc_y");
 		}
 
-		public Location (int id, int gameID, int itemID, int? teamID , double lat, double lng)
+		public Location (int gameID, int itemID, int? teamID , double lat, double lng)
 		{
-            _id = id;
+            _id = 0;
             _gameID = gameID;
             _itemID = itemID;
 			_teamID = teamID;
