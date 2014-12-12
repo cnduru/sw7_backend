@@ -44,7 +44,7 @@ namespace Engine {
         public string JoinComplete() {
             StringBuilder sb = new StringBuilder();
             sb.Append("<JoinGame>");
-            sb.Append("<Message>" + "TRUE " + "</Message>");
+            sb.Append("<Message>" + "TRUE" + "</Message>");
             sb.Append("</JoinGame>");
 
             return sb.ToString();
@@ -52,11 +52,15 @@ namespace Engine {
 
 		public string InviteComplete (int accId)
 		{
+			string status = "TRUE";
+			if (accId == 0) {
+				status = "FALSE";
+			}
 			StringBuilder sb = new StringBuilder();
-			sb.Append("<JoinGame>");
-			sb.Append("<Message>" + "TRUE " + "</Message>");
+			sb.Append("<InviteUser>");
+			sb.Append("<Message>" + status + "</Message>");
 			sb.Append("<UserId>" + accId.ToString() + "</UserId>");
-			sb.Append("</JoinGame>");
+			sb.Append("</InviteUser>");
 
 			return sb.ToString();
 		}
@@ -64,7 +68,7 @@ namespace Engine {
         public string LeaveGameComplete() {
             StringBuilder sb = new StringBuilder();
             sb.Append("<LeaveGame>");
-            sb.Append("<Message>" + "TRUE " + "</Message>");
+            sb.Append("<Message>" + "TRUE" + "</Message>");
             sb.Append("</LeaveGame>");
 
             return sb.ToString();
@@ -92,14 +96,14 @@ namespace Engine {
 		public string InvitedPlayers(List<Player> playersInGame) {
 			StringBuilder sb = new StringBuilder();
 			DBController dbc = new DBController ();
-			sb.Append("<<GetPlayerInvites>>");
+			sb.Append("<GetPlayerInvites>");
 			foreach (Player player in playersInGame) {
 				sb.Append("<Player>");
 				sb.Append("<UserId>" + player.id + "</UserId>");
 				sb.Append("<UserName>" + dbc.GetAccount(player.userName).userName + "</UserName>");
 				sb.Append("</Player>");
 			}
-			sb.Append("</<GetPlayerInvites>>");
+			sb.Append("</GetPlayerInvites>");
 			dbc.Close ();
 			return sb.ToString();
 		}
@@ -136,10 +140,10 @@ namespace Engine {
             sb.Append("<Latitude>" + game.nwx + "</Latitude>");
             sb.Append("<Longitude>" + game.nwy + "</Longitude>");
             sb.Append("</NorthWestBoundary>");
-            sb.Append("<SouthEastboundary>");
+            sb.Append("<SouthEastBoundary>");
             sb.Append("<Latitude>" + game.sex + "</Latitude>");
             sb.Append("<Longitude>" + game.sey + "</Longitude>");
-            sb.Append("</SouthEastboundary>");
+            sb.Append("</SouthEastBoundary>");
             sb.Append("</LobbyInfo>");
 
             return sb.ToString();
