@@ -31,11 +31,11 @@ namespace Engine
 			_boundarySEY = row.Field<double> ("boundary_se_y");
 		}
 
-		public Game (int id, int hostID, int visibility, string alias,
+		public Game (int hostID, int visibility, string alias,
 				 	 DateTime created, DateTime start, DateTime end,
 				 	 double nwx, double nwy, double sex, double sey)
 		{
-			_id = id;
+			_id = 0;
 			_hostID = hostID;
 			_visibility = visibility;
 			_alias = alias;
@@ -57,6 +57,7 @@ namespace Engine
 		}
 		public int visibility {
 			get { return _visibility; }
+			set { _visibility = value; }
 		}
 		public string alias {
 			get { return _alias; }

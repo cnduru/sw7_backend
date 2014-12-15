@@ -23,13 +23,25 @@ namespace Engine {
             GameThreads.Add(gameThread, game);
             gameThread.Start();
         }
-        public void KillThread(int gameId) {
+
+		public void stopGame(int gameId)
+		{
+			Thread k = null;
+			string name = "GameThread" + gameId;
+			foreach (KeyValuePair<Thread, GameThread> threadGamePair in GameThreads) {
+				if (threadGamePair.Key.Name == name)
+					k = threadGamePair.Key;
+			}
+			GameThreads.Remove (k);
+		}
+		//Don't do this
+/*        public void KillThread(int gameId) {
             string name = "GameThread" + gameId;
             foreach (KeyValuePair<Thread, GameThread> threadGamePair in GameThreads) {
                 if (threadGamePair.Key.Name == name)
                     threadGamePair.Key.Abort();
             }
-        }
+        }*/
 
         public GameThread GetGameInstance(int gameId) {
             string name = "GameThread" + gameId;

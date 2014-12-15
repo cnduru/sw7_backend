@@ -4,7 +4,7 @@ using Npgsql;
 using System.Data;
 using Microsoft.Win32.SafeHandles;
 using System.Configuration;
-using System.Device.Location;
+// using System.Device.Location;
 
 
 namespace Engine
@@ -16,8 +16,8 @@ namespace Engine
 		private NpgsqlConnection conn;
 
 		private static string dbHost = "localhost";
-	//	private static string dbName = "cornfielddb";
-		private static string dbName = "CornfieldDB";
+		private static string dbName = "cornfielddb";
+//		private static string dbName = "CornfieldDB";
 		private static string dbUser = "cornfield";
 		private static string dbPass = "cornfield";
 
@@ -50,6 +50,22 @@ namespace Engine
 			{
 				Console.WriteLine (e.ToString());
 				return null;
+			}
+		}
+
+		private int NonQuery (NpgsqlCommand command, string table)
+		{
+			try
+			{
+				if (command.ExecuteNonQuery () == 0)
+					return -1;
+				else
+					return Convert.ToInt32(
+						Query(String.Format("SELECT max(id) FROM {0};", table))[0][0]);
+			}
+			catch (NpgsqlException)
+			{
+				return -1;
 			}
 		}
 
@@ -95,6 +111,10 @@ namespace Engine
 			{
 				res.Add (new Player (row));
 			}
+			foreach (var p in res) {
+
+			}
+
 			return res;
 		}
 
@@ -102,6 +122,18 @@ namespace Engine
 		{
 			string sql = String.Format (@"SELECT * FROM account 
 				WHERE account.username = '{0}';", name); //TODO SQL INJECTION
+
+			DataRowCollection res = Query (sql);
+			if (res.Count == 1)
+				return new Account (res [0]);
+			else
+				return null;
+		}
+
+		public Account GetAccount(int accID)
+		{
+			string sql = String.Format (@"SELECT * FROM account 
+				WHERE account.id = '{0}';", accID);
 
 			DataRowCollection res = Query (sql);
 			if (res.Count == 1)
@@ -192,21 +224,42 @@ namespace Engine
 			command.Parameters.AddWithValue("@boundary_se_x", g.sex);
 			command.Parameters.AddWithValue("@boundary_se_y", g.sey);
 	
-			try
-			{
-				if (command.ExecuteNonQuery () == 0)
-					return -1;
-				else
-				{
-					var r = Query("SELECT max(id) FROM game;")[0][0];
-					return Convert.ToInt32(r);
-				} 
-			}
-			catch (NpgsqlException)
-			{
-				return -1;
-			}
+			return NonQuery (command, "game");
 		}
+
+		public int UpdateGame(Game g)
+		{
+			if (g.id < 1)
+				return -1;
+
+			string sql = "UPDATE game " +
+				"SET host_id = @host_id, " +
+				"alias = @alias, " +
+				"create_time = @create_time, " +
+				"start_time = @start_time, " +
+				"end_time = @end_time, " +
+				"visibility = @visibility, " +
+				"boundary_nw_x = @boundary_nw_x, " +
+				"boundary_nw_y = @boundary_nw_y, " +
+				"boundary_se_x = @boundary_se_x, " +
+				"boundary_se_y = @boundary_se_y " +
+				"WHERE id = " + g.id + ";";
+
+			NpgsqlCommand command = new NpgsqlCommand(sql, conn);
+			command.Parameters.AddWithValue("@host_id", g.hostID );
+			command.Parameters.AddWithValue("@alias", g.alias);
+			command.Parameters.AddWithValue("@create_time", g.created);
+			command.Parameters.AddWithValue("@start_time", g.start);
+			command.Parameters.AddWithValue("@end_time", g.end);
+			command.Parameters.AddWithValue("@visibility", g.visibility);
+			command.Parameters.AddWithValue("@boundary_nw_x", g.nwx);
+			command.Parameters.AddWithValue("@boundary_nw_y", g.nwy);
+			command.Parameters.AddWithValue("@boundary_se_x", g.sex);
+			command.Parameters.AddWithValue("@boundary_se_y", g.sey);
+
+			return NonQuery (command, "game");
+		}
+
 		public int AddStatusEffect(StatusEffect se)
 		{
 			string sql = "INSERT INTO status_effect " +
@@ -219,20 +272,7 @@ namespace Engine
 			command.Parameters.AddWithValue("@value", se.value);
 			command.Parameters.AddWithValue("@end_time", se.endTime);
 
-			try
-			{
-				if (command.ExecuteNonQuery () == 0)
-					return -1;
-				else
-				{
-					var r = Query("SELECT max(id) FROM status_effect;")[0][0];
-					return Convert.ToInt32(r);
-				} 
-			}
-			catch (NpgsqlException)
-			{
-				return -1;
-			}
+			return NonQuery (command, "status_effect");
 		}
 	}
 }

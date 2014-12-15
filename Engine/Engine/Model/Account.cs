@@ -19,9 +19,9 @@ namespace Engine
 			_password = row.Field<string> ("password");
 		}
 
-		public Account (int id, string userName, string password)
+		public Account (string userName, string password)
 		{
-			_id = id;
+			_id = 0;
 			_userName = userName;
 			_password = password;
 		}

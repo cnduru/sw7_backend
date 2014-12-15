@@ -16,10 +16,10 @@ namespace Engine
 			_score = row.Field<int> ("score");
 		}
 
-		public Team (int id, int score)
+		public Team ()
 		{
-            _id = id;
-			_score = score;
+            _id = 0;
+			_score = 0;
 		}
 
         public int id
@@ -35,6 +35,7 @@ namespace Engine
 		public List<Player> teamMembers
 		{
 			get { return _teamMembers; }
+			set { _teamMembers = value; }
 		}
 	}
 }

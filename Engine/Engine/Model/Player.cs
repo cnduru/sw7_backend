@@ -24,10 +24,10 @@ namespace Engine
 			_locY = row.Field<double?> ("loc_y");
 		}
 
-		public Player (int id, int owner, int gameID, int? teamID=null)
+		public Player (int owner, int gameID, int? teamID=null)
 		{
             // initialize variables
-            _id = id;
+            _id = 0;
             _owner = owner;
             _gameID = gameID;
             _teamID = teamID;
