@@ -1,6 +1,7 @@
 import socket
 import time
 import threading
+from doablethings import Actions
 
 mes = b"""<JoinGame><UserId>1</UserId><GameId>1</GameId></JoinGame><EOF>"""
 
@@ -20,10 +21,24 @@ def spam(index):
             print("error", index)
             break
 
-for i in range(100):
-    t = threading.Thread(target=spam, args=(i,))
+
+gametime = 10
+
+def spam2(index, sec_per_game):
+    do = Actions("192.168.43.56", 11000)
+    do.all_the_things(sec_per_game)
+    #try:
+    #    do.all_the_things(sec_per_game)
+    #except:
+    #    print("Something bad happened in game", index)
+
+start_time = time.time()
+for i in range(500):
+    t = threading.Thread(target=spam2, args=(i, gametime,))
     t.setDaemon(True)
     t.start()
 
-while True:
+while start_time + gametime > time.time():
     pass
+
+print("Spam finished.")
