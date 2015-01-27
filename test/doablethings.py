@@ -9,13 +9,18 @@ class Actions():
 
 
     def send_message(self, message):
-        s = socket.socket()
-        s.connect(self.ip_port)
-        start_time = time.time()
-        s.send(message)
-        data = s.recv(1024)
-        run_time = time.time() - start_time
-
+        try:
+            s = socket.socket()
+            s.connect(self.ip_port)
+            start_time = time.clock()
+            s.send(message)
+            data = s.recv(1024)
+            run_time = time.clock() - start_time
+        except:
+            run_time = -1.0
+            data = None
+        #if run_time == 0:
+        #    return self.send_message(message)
         return run_time, data
 
     def login(self):
